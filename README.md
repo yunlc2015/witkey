@@ -1,6 +1,6 @@
 
 <div align="center" >
-![输入图片说明](logo.png)
+   <img src="http://witkey.kfayun.com/lib/images/logo.png" />
 </div>
 
 <div align="center">
