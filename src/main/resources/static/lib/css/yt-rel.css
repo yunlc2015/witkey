@@ -1,0 +1,53 @@
+﻿
+
+/*Common For Max 1200*/
+@media only screen and (max-width: 1260px) {
+
+}
+
+/*Common For Max 960*/
+@media only screen and (max-width: 1199px) {
+    .pen-right{display: none;}
+    .pen-left{width: 100%;}
+}
+
+
+/*Common For Max 768*/
+@media only screen and (max-width: 959px) {
+
+    .ul-pic li{width: 50%;}
+    .pen-left .l-pad {padding: 0 40px;}
+}
+
+
+
+/*Common For Max 480*/
+@media only screen and (max-width: 767px) {
+    .ul-pic li{width:100%;}
+    .pen-left .l-pad {padding: 0 30px;}
+    .pen-left .reply li {padding: 25px 5px;}
+    .pen-left .title h1{font-size: 25px;}
+    .pen-left .link{padding-top: 58px;margin-bottom: 60px;}
+    .mbox-pen,.pen-login{margin-bottom: 55px;}
+}
+
+
+/*Common For Max 320*/
+@media only screen and (max-width: 479px) {
+    .ul-pic li{margin-bottom:15px;}
+    .ul-pic{margin-bottom: 0;}
+    .ul-pic li .pic-li .txt{margin-top: 15px;}
+    .ul-pic li .pic-li .txt p{height: 30px;}
+    .ul-pic li .pic-li .txt p a{font-size: 14px;}
+    .pen-left .l-pad {padding: 0 10px;}
+   .pen-left .reply .txt{line-height: 25px;}
+    .pen-left .title h1 {font-size: 20px;}
+    .pen-left .txt-pic {padding-top: 20px;}
+    .pen-left .txt-pic img,.pen-left .txt-pic p {margin-bottom: 20px;}
+    .pen-left .link{padding-top: 38px;margin-bottom: 40px;}
+    .mbox-pen,.pen-login{margin-bottom: 35px;}
+    .pen-left .reply .txt{padding-left: 10px;}
+}
+@media only screen and (max-width: 360px) {
+
+}

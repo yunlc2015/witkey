@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+  
+  作品相关表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.ZuopinMapper">
+
+    <select id="getZuoPinInfo" resultType="zuoPinInfo">
+      SELECT * 
+      FROM t_zuopininfo
+      WHERE id=#{id}
+    </select>
+    
+    <select id="getZuoPinTotalLikeByUser" resultType="int">
+      SELECT ifnull(sum(likeCount), 0) totalCount
+      FROM t_zuopininfo
+      WHERE userId=#{userId}
+    </select>
+
+		<select id="findZuoPinInfoCount" resultType="int">
+			SELECT count(*) 
+      FROM t_zuopininfo
+			<where>
+        <if test="cond.userId!=0" >
+          AND userId=#{cond.userId}
+        </if>
+        <if test="cond.province!=null and cond.province!=''" >
+          AND province = #{cond.province}
+        </if>
+        <if test="cond.cate1!=0" >
+          AND (cateId/1000)*1000=${cond.cate1}
+        </if>
+        <if test="cond.cate2!=0" >
+          AND cateId=#{cond.cate2}
+        </if>
+        <if test="cond.userGrade==1" >
+          AND userId IN (select id from t_users where type=1 and realAuthState=1)
+        </if>
+        <if test="cond.userGrade==2" >
+          AND userId IN (select id from t_users where type=1 and abilityGrade &gt; 0)
+        </if>
+        <if test="cond.userGrade==3" >
+          AND userId IN (select id from t_users where type=2 and realAuthState=1)
+        </if>
+        <if test="cond.userGrade==4" >
+          AND userId IN (select id from t_users where type=2 and abilityGrade &gt; 0)
+        </if>
+        <if test="cond.keyword!=null and cond.Keyword!=''" >
+          AND INSTR(title, #{cond.keyword#}) &gt; 0
+        </if>
+			</where>
+		</select>
+
+		<select id="findZuoPinInfoList" resultType="zuoPinInfo">
+			SELECT zp.*,
+        u.nickname username,
+        u.avatar userAvatar,
+        c.province province,
+        c.city city 
+      FROM t_zuopininfo zp
+        INNER JOIN t_user u on u.id = zp.userId
+        LEFT JOIN t_city c on c.id = u.cityId
+			<where>
+        <if test="cond.userId!=0" >
+          AND zp.userId=#{cond.userId}
+        </if>
+        <if test="cond.province!=null and cond.province!=''" >
+          AND c.province = #{cond.province}
+        </if>
+        <if test="cond.cate1!=0" >
+          AND (zp.cateId/1000)*1000=${cond.cate1}
+        </if>
+        <if test="cond.cate2!=0" >
+          AND zp.cateId=#{cond.cate2}
+        </if>
+        <if test="cond.userGrade==1" >
+          AND zp.userId IN (select id from t_users where type=1 and realAuthState=1)
+        </if>
+        <if test="cond.userGrade==2" >
+          AND zp.userId IN (select id from t_users where type=1 and abilityGrade &gt; 0)
+        </if>
+        <if test="cond.userGrade==3" >
+          AND zp.userId IN (select id from t_users where type=2 and realAuthState=1)
+        </if>
+        <if test="cond.userGrade==4" >
+          AND zp.userId IN (select id from t_users where type=2 and abilityGrade &gt; 0)
+        </if>
+        <if test="cond.keyword!=null and cond.Keyword!=''" >
+          AND INSTR(zp.title, #{cond.keyword#}) &gt; 0
+        </if>
+			</where>
+      <trim prefix="order by" suffixOverrides=",">
+        <if test="cond.topSort==1" >
+          topNo DESC
+        </if>
+        <if test="cond.priceSort==1" >
+          , price DESC
+        </if>
+        <if test="cond.priceSort==2" >
+          , price ASC
+        </if>
+        <if test="cond.salesSort==1" >
+          , dealCount DESC
+        </if>
+        <if test="cond.salesSort==2" >
+          , dealCount ASC
+        </if>
+        <if test="cond.commentSort==1" >
+          , likeCount desc
+        </if>
+        <if test="cond.commentSort==2" >
+          , likeCount ASC
+        </if>
+        <if test="cond.idSort==1" >
+          , id DESC
+        </if>
+      </trim>
+		</select>
+
+    <select id="getZuoPinInfoListByUser" resultType="zuoPinInfo">
+      select * 
+      from t_zuopininfo
+      where userId=#{userId}
+      order by id desc
+    </select>
+    
+    <insert id="insertZuoPinInfo">
+      insert into t_zuopininfo (userId, title, cateId, link, description, cover, price, addTime, topNo, viewCount)
+      values (#{userId}, #{title}, #{cateId}, #{link}, #{description}, #{cover}, #{price}, #{addTime}, #{topNo}, #{viewCount})
+      <selectKey resultType="int" order="AFTER" keyProperty="id" >
+        SELECT last_insert_id()
+      </selectKey>
+    </insert>
+
+    <update id="updateZuoPinInfo">
+      update t_zuopininfo set
+        title=#{title#},
+        cateId=##{cateId},
+        link=#{link},
+        description=#{description},
+        cover=#{cover},
+        price=#{price},
+        addTime=#{addTime},
+        topNo=#{topNo},
+        viewCount=#{viewCount}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteZuoPinInfo">
+      delete 
+      from t_zuopininfo
+      where id=#Id# and userId=#{userId}
+    </delete>
+
+    <select id="getZuoPinMaxTopNo" resultType="int">
+      select max(topNo) 
+      from t_zuopininfo
+    </select>
+
+    <select id="getZuoPinMinTopNo" resultType="int">
+      select min(topNo) 
+      from t_zuopininfo
+    </select>
+    
+    <insert id="insertZuoPinImage">
+      insert into t_zuopinimage (zuopinId, url, description, cover)
+      values (#{zuopinId}, #{url}, #{description}, #{cover})
+    </insert>
+
+    <select id="getZuoPinImageList" resultType="zuoPinImage">
+      select * 
+      from t_zuopinimage
+      where zuopinId=#{zuopinId}
+    </select>
+
+    <delete id="deleteZuoPinImages">
+      delete 
+      from t_zuopinimage
+      where zuopinId=#{zuopinId}
+    </delete>
+    
+</mapper>

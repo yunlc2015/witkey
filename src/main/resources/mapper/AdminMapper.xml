@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+
+  管理员相关表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.AdminMapper">
+
+		<select id="getAdminByPasswd" resultType="admin">
+			select * 
+      from t_admin
+			where adminName=#{adminName} and passwd=#{passwd}
+		</select>
+
+    <select id="getAdminByName" resultType="admin">
+      select * 
+      from t_admin
+      where name=#{name}
+    </select>
+    
+		<select id="getAdmin" resultType="admin">
+      select * 
+      from t_admin
+      where id=#{id}
+		</select>
+    
+		<select id="getAdmins" resultType="admin">
+      select * 
+      from t_admin
+		</select>
+
+    <insert id="insertAdmin">
+      insert into t_admin (name, passwd, description, addTime, state, lastLogin)
+      values (#{name}, #{passwd}, #{description}, #{addTime}, #{state}, #{lastLogin})
+    </insert>
+
+    <update id="updateAdmin">
+      update t_admin set
+       passwd=#{passwd},
+       description=#{description},
+       lastLogin=#{lastLogin},
+       state=#{state}
+       where id=#{id}}
+    </update>
+
+    <select id="getPermissions" resultType="object[]">
+      select * 
+      from t_permission
+    </select>
+    
+    <select id="getAdminPermissions" resultType="int">
+      select permId 
+      from t_admin_perm
+      where adminId=#{adminId}
+    </select>
+
+    <delete id="deleteAdminPermissions">
+      delete 
+      from t_admin_perm
+      where adminId=#{adminId}
+    </delete>
+
+    <insert id="insertAdminPermission">
+      insert into t_admin_perm (adminId, permId)
+      values (#{adminId}, #{permId})
+    </insert>
+    
+</mapper>

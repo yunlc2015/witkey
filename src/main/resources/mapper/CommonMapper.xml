@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+  
+  通用相关表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.CommonMapper">
+
+    <select id="getProvince" resultType="cityInfo">
+      select * 
+      from t_city
+      where province=#{province} and flag=1
+    </select>
+
+    <select id="getCity" resultType="cityInfo">
+      select * 
+      from t_city
+      where id=#{id}
+    </select>
+    
+    <select id="getProvinceList" resultType="cityInfo">
+      select * 
+      from t_city
+      where flag=1
+    </select>
+    
+		<select id="getCityListByProvince" resultType="cityInfo">
+			select * 
+      from t_city
+			where province=#{province} and flag=0
+		</select>
+
+    <select id="getCategoryList" resultType="category">
+      select * 
+      from t_category
+      where depth=0
+    </select>
+
+    <select id="getCategoryListByParent" resultType="category">
+      select * 
+      from t_category
+      where id between #{parentId}+1 and #{parentId} + 999
+    </select>
+
+    <select id="getCategory" resultType="category">
+      select * 
+      from t_category
+      where id=#{id}
+    </select>
+
+    <select id="getCategoryByUser" resultType="category">
+      select * 
+      from t_category
+      where id in (select cateId from t_user_cate where userId=#{userId})
+    </select>
+    
+    <insert id="insertRequire">
+      insert into t_require (title, mobile, category, subscribe, clientIP, addTime)
+      values (#{title}, #{mobile}, #{category}, #{subscribe}, #{clientIP}, #{addTime})
+    </insert>
+
+    <select id="findRequireCount" resultType="int">
+      select count(*) 
+      from t_require
+      <where>
+
+      </where>
+    </select>
+
+    <select id="findRequireList" resultType="require">
+      select * 
+      from t_require
+      <where>
+
+      </where>
+      order by id desc
+    </select>
+
+    <select id="getRequireTotalByDate" resultType="int">
+      select count(*) 
+      from t_require
+      where convert(varchar(10), addTime, 120) = #{date}
+    </select>
+
+    <select id="getRequireTotalByMonth" resultType="int">
+      select count(*) 
+      from t_require
+      where convert(varchar(7), addTime, 120) = #{month}
+    </select>
+    
+    <select id="checkLike" resultType="int">
+      select count(*) 
+      from t_like
+      where userId=#{userId} and objectId=#{objectId} and kind=#{kind}
+    </select>
+
+    <insert id="insertLike">
+      insert into t_like (userId, objectId, kind, likeUserId, likeTime)
+      values (#{userId}, #{objectId}, #{kind}, #{likeUserId}, #{likeTime})
+    </insert>
+
+    <select id="getLikeCount" resultType="int">
+      select count(*) 
+      from t_like
+      where objectId=#{objectId} and kind=#{kind}
+    </select>
+
+    <select id="getLikeCountByUser" resultType="int">
+      select count(*) 
+      from t_like
+      where likeUserId=#{userId}
+    </select>
+
+    <insert id="insertTouSu">
+      insert into t_tousu (userId, content, addTime)
+      values (#{userId}, #{content}, #{addTime})
+    </insert>
+
+    <select id="findTouSuCount" resultType="int">
+      select count(*) 
+      from t_tousu
+      <where>
+
+      </where>
+    </select>
+
+    <select id="findTouSuList" resultType="touSu">
+      select * 
+      from t_tousu
+      <where>
+
+      </where>
+      order by id desc
+    </select>
+
+    <insert id="insertRating">
+      insert into t_rating (userId, projectId, taskId, toUserId, star, content, addTime)
+      values (#{userId}, #{projectId}, #{taskId}, #{toUserId}, #{star}, #{content}, #{addTime})
+    </insert>
+
+    <select id="getRatingByProject" resultType="rating">
+      select * 
+      from t_rating
+      where projectId=#{projectId}
+    </select>
+
+    <select id="findRatingCount" resultType="int">
+      select count(*) 
+      from t_rating
+      <where>
+        <if test="cond.toUserId!=0">
+          toUserId=#{cond.toUserId}
+        </if>
+        <if test="cond.type==5">
+          and (star=5 or star=4)
+        </if>
+        <if test="cond.type==3">
+          and (star=3 or star=2)
+        </if>
+        <if test="cond.type==1">
+          and star=1
+        </if>
+      </where>
+    </select>
+
+    <select id="findRatingList" resultType="rating">
+      select r.*,
+        u.nickname username,
+        u.avatar userAvatar 
+      from t_rating r
+        inner join t_user u on u.id=r.userId
+      <where>
+        <if test="cond.toUserId!=0">
+          and r.toUserId=#{cond.toUserId}
+        </if>
+        <if test="cond.type==5">
+          and (r.star=5 or r.star=4)
+        </if>
+        <if test="cond.type==3">
+          and (r.star=3 or r.star=2)
+        </if>
+        <if test="cond.type==1">
+          and r.star=1
+        </if>
+      </where>
+      order by id desc
+    </select>
+
+    <select id="getRatingCountByToUser" resultType="map">
+      SELECT
+      COUNT(id) AS totalCount,
+      IFNULL(SUM(CASE WHEN star=5 OR star=4 THEN 1 ELSE 0 END), 0) AS count1,
+      IFNULL(SUM(CASE WHEN star=3 OR star=2 THEN 1 ELSE 0 END), 0) AS count2,
+      IFNULL(SUM(CASE WHEN star=1 THEN 1 ELSE 0 END), 0) AS count3
+      FROM t_rating
+      where toUserId=#{toUserId}
+    </select>
+    
+</mapper>

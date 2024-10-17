@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+  
+  系统相关表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.SysMapper" >
+
+  <insert id="insertActionLog">
+    insert into t_actionlog (userId,category,methodName,actionName,actionDescr,actionArgs,duration,result,logTime,logIp)
+    values (#{userId},#{category},#{methodName},#{actionName},#{actionDescr},#{actionArgs},#{duration},#{result},#{logTime},#{logIp})
+  </insert>
+
+  <select id="getActionLog" resultType="actionLog">
+   select *
+    from t_actionlog
+    where id=#{id}
+  </select>
+
+  <select id="findActionLogCount" resultType="java.lang.Integer">
+    select count(*)
+    from t_actionlog
+    <where>
+      <if test="category!=null and category!=''">
+        and category=#{category}
+      </if>
+      <if test="keyword!=null and keyword!=''">
+        and instr(actionDescr, #{keyword}) != -1
+      </if>
+    </where>
+  </select>
+
+    <select id="findActionLogList" resultType="actionLog">
+        select *
+        from t_actionlog
+        <where>
+        <if test="category!=null and category!=''">
+            and category=#{category}
+        </if>
+        <if test="keyword!=null and keyword!=''">
+            and instr(actionDescr, #{keyword}) != -1
+        </if>
+        </where>
+        order by id desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="getSettingItemList" resultType="settingItem">
+		select *
+		 from t_settings
+	</select>
+	
+	<update id="updateSettingsByKey">
+        update t_settings set
+            `value`=#{value}
+            where `key`=#{key}
+    </update>
+
+</mapper>

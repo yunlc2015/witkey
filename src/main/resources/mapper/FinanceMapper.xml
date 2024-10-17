@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+  
+  财务相关表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.FinanceMapper">
+
+		<select id="findPaymentCount" resultType="int">
+			select count(*) 
+      from t_payment
+			<where>
+        <if test="cond.userId!=0">
+          userId=#{cond.userId}
+        </if>
+			</where>
+		</select>
+
+		<select id="findPaymentList" resultType="payment">
+			select * 
+      from t_payment
+			<where>
+        <if test="cond.userId!=0">
+          userId=#{cond.userId}
+        </if>
+			</where>
+      order by id desc
+		</select>
+
+    <insert id="insertPayment">
+      insert into t_payment (userId, amount, summary, kind, payTime, taskId, tradeNo, operator)
+      values (#{userId}, #{amount}, #{summary}, #{kind}, #{payTime}, #{taskId}, #{tradeNo}, #{operator})
+      <selectKey resultType="int" order="AFTER" keyProperty="id" >
+        SELECT last_insert_id()
+      </selectKey>
+    </insert>
+
+    <select id="getPaymentByTaskAndUser" resultType="payment">
+      select * 
+      from t_payment
+      where taskId=#{taskId} and userId=#{userId}
+    </select>
+
+    <select id="checkPaymentForTrade" resultType="int">
+      select count(*) 
+      from t_payment
+      where tradeNo=#{tradeNo} and kind=1
+    </select>
+
+    <insert id="insertWithdrawal">
+      insert into t_withdrawal (userId, paymentId, amount, bankId, bankAccName, bankAccNo, state, requestTime)
+      values (#{userId}, #{paymentId}, #{amount}, #{bankId}, #{bankAccName}, #{bankAccNo}, #{state}, #{requestTime})
+    </insert>
+
+    <update id="updateWithdrawal">
+      update t_withdrawal set
+      state=#{state},
+      settleTime=#{settleTime},
+      settleMemo=#{settleMemo},
+      settleOperator=#{settleOperator}
+      where id=#{id}
+    </update>
+    
+    <select id="getWithdrawal" resultType="withdrawal">
+      select * 
+      from t_withdrawal
+      where id=#{id}
+    </select>
+
+    <select id="getWithdrawalByPayment" resultType="withdrawal">
+      select * 
+      from t_withdrawal
+      where paymentId=#{paymentId}
+    </select>
+    
+    <select id="findWithdrawalCount" resultType="int">
+      select count(*) 
+      from t_withdrawal
+      <where>
+        <if test="cond.userId!=0">
+          userId=#{cond.userId}
+        </if>
+      </where>
+    </select>
+
+    <select id="findWithdrawalList" resultType="withdrawal">
+      select * 
+      from t_withdrawal
+      <where>
+        <if test="cond.userId!=0">
+          userId=#{cond.userId}
+        </if>
+      </where>
+      order by id desc
+    </select>
+
+    <select id="getInvoiceByTask" resultType="invoice">
+      select * 
+      from t_invoice
+      where taskId=#{taskId}
+      order by id desc
+    </select>
+
+    <insert id="insertInvoice">
+      insert into t_invoice (userId, taskId, invoiceNo, invTitle, invAmount, expAddress,
+        cellphone, recipients, expressNo, createTime, state, operator)
+      values (#{userId}, #{taskId}, #{invoiceNo}, #{invTitle}, #{invAmount}, #{expAddress},
+        #{cellphone}, #{recipients}, #{expressNo}, #{createTime}, #{state}, #{operator})
+    </insert>
+    
+</mapper>

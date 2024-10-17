@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <package name="com.kfayun.app.witkey.model" />
+    </typeAliases>
+    
+    <typeHandlers>
+        <typeHandler javaType="com.kfayun.app.witkey.model.TaskState" handler="com.kfayun.app.witkey.dao.EnumTypeHandler"/>
+        <typeHandler javaType="com.kfayun.app.witkey.model.AuditState" handler="com.kfayun.app.witkey.dao.EnumTypeHandler"/>
+        <typeHandler javaType="com.kfayun.app.witkey.model.ProjectState" handler="com.kfayun.app.witkey.dao.EnumTypeHandler"/>
+    </typeHandlers>
+
+    <plugins>
+        <plugin interceptor="com.kfayun.app.witkey.dao.DaoInterceptor" /> 
+    </plugins>
+
+</configuration>

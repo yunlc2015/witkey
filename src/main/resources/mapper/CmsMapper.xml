@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+
+  内容相关表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.CmsMapper">
+
+    <select id="getBannersByLocation" resultType="banner">
+      select * 
+      from t_banner
+      where location=#{location}
+      order by sortNo desc
+    </select>
+
+    <select id="getBanner" resultType="banner">
+      select * 
+      from t_banner
+      where id=#{id}
+    </select>
+    
+    <insert id="insertBanner">
+      insert into t_banner (location, imageUrl, targetUrl, sortNo, addTime)
+      values (#{location}, #{imageUrl}, #{targetUrl}, #{sortNo}, #{addTime})
+    </insert>
+
+    <update id="updateBanner">
+      update t_banner set
+       imageUrl=#{imageUrl},
+       targetUrl=#{targetUrl},
+       sortNo=#{sortNo}
+       where id=#{id}
+    </update>
+
+    <delete id="deleteBanner">
+      delete 
+      from t_banner
+      where id=#{id}
+    </delete>
+
+    <select id="findBdInfoCount" resultType="int">
+      select count(*) 
+      from t_bdinfo
+      <where>
+        <if test="name!=null and name!=''">
+          name=#{name}
+        </if>
+      </where>
+    </select>
+
+    <select id="findBdInfoList" resultType="bdInfo">
+      select * 
+      from t_bdinfo
+      <where>
+        <if test="name!=null and name!=''">
+          name=#{name}
+        </if>
+      </where>
+      order by id desc
+    </select>
+    
+    <select id="getBdInfosByName" resultType="bdInfo">
+      select * 
+      from t_bdinfo
+      where name=#{name}
+      order by sortNo desc
+    </select>
+
+    <select id="getBdInfo" resultType="bdInfo">
+      select * 
+      from t_bdinfo
+      where id=#{id}
+    </select>
+
+    <insert id="insertBdInfo">
+      insert into t_bdinfo (name, title, price, imageUrl, targetUrl, sortNo, addTime)
+      values (#{name}, #{title}, #{price}, #{imageUrl}, #{targetUrl}, #{sortNo}, #{addTime})
+    </insert>
+
+    <update id="updateBdInfo">
+      update t_bdinfo set
+      title=#{title},
+      price=#{price},
+      imageUrl=#{imageUrl},
+      targetUrl=#{targetUrl},
+      sortNo=#{sortNo}
+      where id=#{id}
+    </update>
+
+    <delete id="deleteBdInfo">
+      delete 
+      from t_bdinfo
+      where id=#{id}
+    </delete>
+    
+    <select id="findArticleCount" resultType="int">
+      select count(*) 
+      from t_article
+      <where>
+      <if test="cond.kind!=null and cond.key!=''">
+        kind=#${cond.kind}
+      </if>
+    </where>
+    </select>
+    
+    <select id="findArticleList" resultType="article">
+      select * 
+      from t_article
+      <where>
+      <if test="cond.kind!=null and cond.key!=''">
+        kind=#${cond.kind}
+      </if>
+    </where>
+      order by id desc
+    </select>
+
+    <select id="getArticleByPath" resultType="article">
+      select * 
+      from t_article
+      where path=#{path}
+    </select>
+
+    <select id="getArticle" resultType="article">
+      select * 
+      from t_article
+      where id=#{id}
+    </select>
+    
+    <insert id="insertArticle">
+      insert into t_article (title, content, kind, path, addTime)
+      values (#{title}, #{content}, #{kind}, #{path}, #{addTime})
+    </insert>
+
+    <update id="updateArticle">
+      update t_article set
+       title=#{title},
+       content=#{content},
+       kind=#{kind},
+       path=#{path}
+       where id=#{id}
+    </update>
+
+    
+</mapper>

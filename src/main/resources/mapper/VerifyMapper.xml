@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+  
+  校验码表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.VerifyMapper">
+
+    <select id="getVerifyCodeByData" resultType="VerifyCode">
+      select * 
+	  from t_verifycode
+      where sendTo=#{sendTo} and data=#{data} and kind=#{kind}
+	  order by id desc
+	  limit 1
+    </select>
+    
+	<select id="findVerifyCodeCount" resultType="int">
+		select count(*) 
+		from t_verifycode
+		<where>
+			
+		</where>
+	</select>
+
+	<select id="findVerifyCodeList" resultType="VerifyCode">
+		select * 
+		from t_verifycode
+		<where>
+
+		</where>
+		order by id desc
+	</select>
+
+    <insert id="insertVerifyCode">
+      insert into t_verifycode (sendTo, type, kind, data, sendTime, state, sendResult, clientIp)
+      values (#{sendTo}, #{type}, #{kind}, #{data}, #{sendTime}, #{state}, #{sendResult}, #{clientIp})
+      <selectKey resultType="int" order="AFTER" keyProperty="id" >
+        SELECT last_insert_id()
+      </selectKey>
+	</insert>
+    
+	<update id="updateVerifyCode">
+		update t_verifycode set
+			data=#{data},
+		  sendTime=#{sendTime},
+		  sendResult=#{sendResult},
+		  state=#{state}
+		where id=#{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+  
+  任务相关表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.TaskMapper">
+
+    <select id="getTaskInfo" resultType="taskInfo">
+      select * 
+      from t_taskinfo
+      where id=#{id}
+    </select>
+    
+		<select id="findTaskInfoCount" resultType="int">
+			select count(*) 
+      from t_taskinfo
+			<where>
+        <if test="cond.userId!=0" >
+          userId=#{cond.userId}
+        </if>
+        <if test="cond.cate1!=0" >
+          and cateId=#{cond.cate1}
+        </if>
+        <if test="cond.mode!=0" >
+          and taskMode=#{cond.mode}
+        </if>
+        <if test="cond.service!=0" >
+          and service=#{cond.service}
+        </if>
+        <if test="cond.keyword!=null and cond.keyword!=''" >
+          and instr(requirement, #{cond.keyword}) &gt; 0
+        </if>
+        <if test="cond.username!=null and cond.username!=''" >
+          and instr(username, #{cond.username}) &gt; 0
+        </if>
+        <if test="cond.taskState!=-1" >
+          and taskState=#{cond.taskState}
+        </if>
+        <if test="cond.cancelled!=1" >
+          and taskState &lt;&gt; 6
+        </if>
+        <if test="cond.auditState!=-1" >
+          and auditState=#{cond.auditState}
+        </if>
+        <if test="cond.invoice!=0" >
+          and invoice=#{cond.invoice}
+        </if>
+			</where>
+		</select>
+
+		<select id="findTaskInfoList" resultType="taskInfo">
+      select t.*, 
+        u.nickname username
+      from t_taskinfo t
+        inner join t_user u on u.id=t.userId
+      <where>
+        <if test="cond.userId!=0" >
+          t.userId=#{cond.userId}
+        </if>
+        <if test="cond.cate1!=0" >
+          and t.cateId=#{cond.cate1}
+        </if>
+        <if test="cond.mode!=0" >
+          and t.taskMode=#{cond.mode}
+        </if>
+        <if test="cond.service!=0" >
+          and t.service=#{cond.service}
+        </if>
+        <if test="cond.keyword!=null and cond.keyword!=''" >
+          and instr(t.requirement, #{cond.keyword}) &gt; 0
+        </if>
+        <if test="cond.username!=null and cond.username!=''" >
+          and instr(u.username, #{cond.username}) &gt; 0
+        </if>
+        <if test="cond.taskState!=-1" >
+          and t.taskState=#{cond.taskState}
+        </if>
+        <if test="cond.cancelled!=1" >
+          and t.taskState &lt;&gt; 6
+        </if>
+        <if test="cond.auditState!=-1" >
+          and t.auditState=#{cond.auditState}
+        </if>
+        <if test="cond.invoice!=0" >
+          and t.invoice=#{cond.invoice}
+        </if>
+			</where>
+      <trim prefix="order by" suffixOverrides=",">
+        <if test="cond.pubTimeSort==1">addTime desc,</if>
+        <if test="cond.pubTimeSort==2">addTime asc,</if>
+        <if test="cond.leftTimeSort==1">dueTime desc,</if>
+        <if test="cond.leftTimeSort==2">dueTime asc,</if>
+        <if test="cond.priceSort==1">totalAmount desc,</if>
+        <if test="cond.priceSort==2">totalAmount asc,</if>
+      </trim>
+		</select>
+
+    <select id="getTaskInfoListByUser" resultType="taskInfo">
+      select * 
+      from t_taskinfo
+      where userId=#{userId}
+      order by id desc
+    </select>
+    
+    <insert id="insertTaskInfo">
+      insert into t_taskinfo (userId, cateId, requirement, designDetails, designContent, hopeDays, taskMode, service,
+      designBudget, otherService, invoice, invTitle, invAddress, invRecipients, invCellphone, totalAmount,
+      designAmount, serviceAmount, faxAmount, taskState, auditState, limitDesigner, addTime, dueTime, topTicks)
+      values (#{userId}, #{cateId}, #{requirement}, #{designDetails}, #{designContent}, #{hopeDays}, #{taskMode}, #{service},
+      #{designBudget}, #{otherService}, #{invoice}, #{invTitle}, #{invAddress}, #{invRecipients}, #{invCellphone}, #{totalAmount},
+      #{designAmount}, #{serviceAmount}, #{faxAmount}, #{taskState}, #{auditState}, #{limitDesigner}, #{addTime}, #{dueTime}, #{topTicks})
+      <selectKey resultType="int" order="AFTER" keyProperty="id" >
+        SELECT last_insert_id()
+      </selectKey>
+    </insert>
+
+    <update id="updateTaskInfo">
+      update t_taskinfo set
+      hopeDays=#{hopeDays},
+      designBudget=#{designBudget},
+      totalAmount=#{totalAmount},
+      designAmount=#{designAmount},
+      serviceAmount=#{serviceAmount},
+      faxAmount=#{faxAmount},
+      taskState=#{taskState},
+      auditState=#{auditState},
+      auditMemo=#{auditMemo},
+      limitDesigner=#{limitDesigner},
+      chooseTime=#{chooseTime},
+      dueTime=#{dueTime},
+      topTicks=#{topTicks}
+      where id=#{id}
+    </update>
+
+    <update id="updateTaskTopTicks">
+      UPDATE t_taskinfo
+      SET topTicks = 0
+      WHERE topTicks &gt; 0 and DATE_ADD(addTime, INTERVAL hopeDays DAY) &lt; now() 
+    </update>
+    
+    <delete id="deleteTaskInfo">
+      delete 
+      from t_taskinfo
+      where id=#{id} and userId=#{userId}
+    </delete>
+
+    <select id="getTaskApprovedCount" resultType="int">
+      select count(id) 
+      from t_taskinfo
+      where auditState=1
+    </select>
+    
+    <select id="getTaskApprovedAmount" resultType="java.math.BigDecimal">
+      select sum(totalAmount) 
+      from t_taskinfos
+      where auditState=1
+    </select>
+    
+    <insert id="insertTaskFile">
+      insert into t_taskfile (taskId, url, type)
+      values (#{taskId}, #{url}, #{type})
+    </insert>
+
+    <select id="getTaskFileList" resultType="taskFile">
+      select * 
+      from t_taskfile
+      where taskId=#{taskId}
+    </select>
+
+    <delete id="deleteTaskFiles">
+      delete 
+      from t_taskfile
+      where taskId=#{taskId}
+    </delete>
+    
+</mapper>

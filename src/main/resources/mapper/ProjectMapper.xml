@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+  
+  项目相关表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.ProjectMapper">
+
+    <select id="getProject" resultType="project">
+      select * 
+      from t_project
+      where id=#{id}
+    </select>
+
+    <select id="getProjectByTaskAndUser" resultType="project">
+      select * 
+      from t_project
+      where taskId=#{taskId} and userId=#{userId} 
+    </select>
+
+    <select id="getProjectListByTask" resultType="project">
+      select * 
+      from t_project
+      where taskId=#{taskId}
+      order by selected desc, id desc
+    </select>
+    
+    <select id="findProjectCount" resultType="int">
+      select count(*) 
+      from t_project
+      <where>
+        <if test="cond.taskId!=0">
+          and taskId=#{cond.taskId}
+        </if>
+        <if test="cond.userId!=0">
+          and userId=#{cond.userId}
+        </if>
+        <if test="cond.state!=-1">
+          and state=#{cond.state}
+        </if>
+        <if test="cond.selected!=0">
+          and selected=#{cond.selected}
+        </if>
+			</where>
+		</select>
+
+		<select id="findProjectList" resultType="project">
+      select p.*,
+        u.nickname designerName,
+        u.mobile designerMobile,
+        u.avatar designerAvatar,
+        u.special designerSpecial 
+      from t_project p
+        inner join t_user u on u.id=p.userId
+      <where>
+        <if test="cond.taskId!=0">
+          and p.taskId=#{cond.taskId}
+        </if>
+        <if test="cond.userId!=0">
+          and p.userId=#{cond.userId}
+        </if>
+        <if test="cond.state!=-1">
+          and p.state=#{cond.state}
+        </if>
+        <if test="cond.selected!=0">
+          and p.selected=#{cond.selected}
+        </if>
+			</where>
+      order by
+      <if test="cond.taskId!=0">
+        selected desc, id desc
+      </if>
+      <if test="cond.taskId==0">
+        id desc
+      </if>
+		</select>
+
+    <select id="getProjectCountByTask" resultType="map">
+      SELECT
+      COUNT(id) AS totalCount,
+      IFNULL(SUM(CASE WHEN selected = 1 AND state=1 THEN 1 ELSE 0 END), 0) AS selectedCount,
+      IFNULL(SUM(CASE WHEN state = 1 THEN 1 ELSE 0 END), 0) AS submittedCount,
+      IFNULL(SUM(CASE WHEN state = 0 THEN 1 ELSE 0 END), 0) AS waitingCount
+      FROM t_project
+      where taskId=#{taskId}
+    </select>
+
+    <select id="getProjectCount2ByTask" resultType="int">
+      SELECT count(*)
+      FROM t_project
+      where taskId=#{taskId}
+    </select>
+    
+    <select id="getProjectListByUser" resultType="project">
+      select * 
+      from t_project
+      where userId=#{userId}
+      order by id desc
+    </select>
+    
+    <insert id="insertProject">
+      insert into t_project (userId, taskId, acceptTime, state, readed, selected)
+      values (#{userId}, #{taskId}, #{acceptTime}, #{state}, #{readed}, #{selected})
+    </insert>
+
+    <update id="updateProject">
+      update t_project set
+      state=#{state},
+      submitTime=#{submitTime},
+      proposalDescribe=#{proposalDescribe},
+      proposalHidden=#{proposalHidden},
+      readed=#{readed},
+      selected=#{selected}
+      where id=#{id}
+    </update>
+    
+    <insert id="insertProjectFile">
+      insert into t_projectfile (projectId, url, description)
+      values (#{projectId}, #{url}, #{description})
+    </insert>
+
+    <select id="getProjectFileList" resultType="projectFile">
+      select * 
+      from t_projectfile
+      where projectId=#{projectId}
+    </select>
+
+    <delete id="deleteProjectFiles">
+      delete 
+      from t_projectfile
+      where projectId=#{projectId}
+    </delete>
+
+    <select id="getSelectedProposalsUserIdList" resultType="int">
+      select userId 
+      from t_project
+      where taskId=#{taskId} and selected=1 and state=1
+    </select>
+
+</mapper>

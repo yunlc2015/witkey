@@ -1,0 +1,56 @@
+server:
+  port: 8091
+  tomcat:
+    uri-encoding: UTF-8
+  http:
+    encoding:
+      charset: UTF-8
+  servlet:
+    context-path: 
+    encoding:
+      charset: UTF-8
+
+spring:
+  application:
+    name: witkey
+
+  profiles:
+    active: dev
+    spring:
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  resources:
+    add-mappings: false
+               
+  freemarker:
+    suffix: .ftl
+    settings:
+      template_exception_handler: com.kfayun.app.witkey.web.WebErrorHandler
+        
+logging:
+  file:
+    name: logs/web.log
+  level:
+    ROOT: info
+  
+datasource:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  hikari: 
+    maxLifetime: 300000 #一个连接的生命时长（毫秒）
+    maximumPoolSize: 5 #
+
+app:
+  version: @project.version@
+  cache:
+    provider: ehcache

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+  
+  交易表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.TradeMapper">	
+
+    <insert id="insertTrade">
+      insert into t_trade (userId, taskId, tradeNo, subject, amount, balance, 
+        totalAmount, addTime, payType, payState, payFlag)
+      values (#{userId}, #{taskId}, #{tradeNo}, #{subject}, #{amount}, #{balance}, 
+        #{totalAmount}, #{addTime}, #{payType}, #{payState}, #{payFlag})
+    </insert>
+
+    <update id="updateTrade">
+      update t_trade set
+        amount=#{amount},
+        balance=#{balance},
+        totalAmount=#{totalAmount},
+        addTime=#{addTime},
+        payType=#{payType},
+        payState=#{payState},
+        thirdNo=#{thirdNo},
+        thirdStatus=#{thirdStatus},
+        thirdBuyer=#{thirdBuyer},
+        payTime=#{payTime},
+        notifyStatus=#{notifyStatus},
+        notifyTime=#{notifyTime}
+      where id=#{id}
+    </update>
+    
+    <select id="getTrade" resultType="trade">
+      select * 
+      from t_trade
+      where tradeNo=#{tradeNo}
+    </select>
+
+    <select id="getTradeByTask" resultType="trade">
+      select * 
+      from t_trade
+      where taskId=#{taskId}
+      order by id desc
+      limit 1
+    </select>
+
+  <select id="getTradeNoByTask" resultType="string">
+      select tradeNo 
+      from t_trade
+      where taskId=#{taskId}
+      order by id desc
+      limit 1
+    </select>
+
+    <select id="findTradeCount" resultType="int">
+      select count(*) 
+      from t_trade
+      <where>
+        <if test="cond.payType!=0" >
+          payType=#{cond.payType}
+        </if>
+        <if test="cond.payState!=-1" >
+          and payState=#{cond.payState}
+        </if>
+      </where>
+    </select>
+
+    <select id="findTradeList" resultType="trade">
+      select * 
+      from t_trade
+      <where>
+        <if test="cond.payType!=0" >
+          payType=#{cond.payType}
+        </if>
+        <if test="cond.payState!=-1" >
+          and payState=#{cond.payState}
+        </if>
+      </where>
+      order by id desc
+    </select>
+    
+</mapper>

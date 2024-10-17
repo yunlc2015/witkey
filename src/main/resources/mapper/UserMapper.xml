@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  云联创威客系统
+  Copyright 2015 云联创科技
+  
+  用户相关表SQL
+  author: Billy Zhang (billy_zh@126.com)
+-->
+<mapper namespace="com.kfayun.app.witkey.dao.UserMapper">
+
+    <insert id="insertUser">
+      INSERT t_user (mobile, passwd, salt, clazz, type, nickname, state, balance, regTime, realAuthState, abilityGrade, topNo)
+      VALUES (#{mobile}, #{passwd}, #{salt}, #{clazz}, #{type}, #{nickname}, #{state}, #{balance}, #{regTime}, #{realAuthState}, #{abilityGrade}, #{topNo})
+      <selectKey resultType="int" order="AFTER" keyProperty="id" >
+        SELECT last_insert_id()
+      </selectKey>
+    </insert>
+
+    <update id="updateUser">
+      UPDATE t_user SET
+        nickname=#{nickname},
+        passwd=#{passwd},
+        avatar=#{avatar},
+        type=#{type},
+        gender=#{gender},
+        mobile2=#{mobile2},
+        mobile2Pub=#{mobile2Pub},
+        im=#{im},
+        cityId=#{cityId},
+        workYear=#{workYear},
+        company=#{company},
+        education=#{education},
+        special=#{special},
+        teamDescr=#{teamDescr},
+        intro=#{intro},
+        startingPrice=#{startingPrice},
+        state=#{state},
+        lastLogin=#{lastLogin},
+        realAuthState=#{realAuthState},
+        abilityGrade=#{abilityGrade},
+        topNo=#{topNo}
+      WHERE id=#{id}
+    </update>
+
+    <update id="updateUserBalance">
+      UPDATE t_user SET
+        balance=balance+#{amount}
+      WHERE id=#{id}
+    </update>
+    
+    <update id="updateUserPwd">
+      UPDATE t_user SET
+        passwd=#{passwd}
+      WHERE id=#{id}
+    </update>
+
+    <select id="getUser" resultType="user">
+      SELECT u.*, c.province, c.city 
+      FROM t_user u
+        LEFT JOIN t_city c ON c.id=u.cityId
+      WHERE u.id=#{id}
+    </select>
+    
+    <select id="checkUserByMobile" resultType="int">
+      SELECT COUNT(*) 
+      FROM t_user
+      WHERE mobile=#{mobile}
+    </select>
+    
+		<select id="getUserByMobile" resultType="user">
+			SELECT * 
+      FROM t_user
+			WHERE mobile=#{mobile}
+		</select>
+
+    <select id="getUserCount" resultType="int">
+      SELECT COUNT(*) 
+      FROM t_user
+      <!--where class=#value#-->
+    </select>
+    
+		<select id="findUserCount" resultType="int">
+			SELECT COUNT(*) 
+      FROM t_user
+			<where>
+        <if test="cond.clazz!=0" >
+          clazz=#{cond.clazz}
+        </if>
+        <if test="cond.type!=0" >
+          AND type=#{cond.type}
+        </if>
+        <if test="cond.province!=null and cond.province!=''" >
+          AND cityId IN (select id from t_city where province = #{cond.province#} )
+        </if>
+        <if test="cond.cityId!=0" >
+          and cityId = #{cond.cityId}
+        </if>
+        <if test="cond.cate1!=0" >
+          and id in (select userId from t_user_cate where cateId=#{cond.cate1} )
+        </if>
+        <if test="cond.grade!=0" >
+          and abilityGrade=#{cond.grade}
+        </if>
+        <if test="cond.keyword!=null and cond.keyword!=''" >
+          and instr(nickname, #{cond.keyword} ) &gt; 0
+        </if>
+        <if test="cond.mobile!=null and cond.mobile!=''" >
+          and instr(mobile, #{cond.mobile} ) &gt; 0
+        </if>
+			</where>
+		</select>
+
+		<select id="findUserList" resultType="user">
+			select u.*,
+        c.province,
+        c.city 
+      from t_user u
+        left join t_city c on c.id=u.cityId
+			<where>
+        <if test="cond.clazz!=0" >
+          u.clazz=#{cond.clazz}
+        </if>
+        <if test="cond.type!=0" >
+          and u.type=#{cond.type}
+        </if>
+        <if test="cond.province!=null and cond.province!=''" >
+          and c.province = #{cond.province#} )
+        </if>
+        <if test="cond.cityId!=0" >
+          and u.cityId = #{cond.cityId}
+        </if>
+        <if test="cond.cate1!=0" >
+          and u.id in (select userId from t_user_cate where cateId=#{cond.cate1} )
+        </if>
+        <if test="cond.grade!=0" >
+          and u.abilityGrade=#{cond.grade}
+        </if>
+        <if test="cond.keyword!=null and cond.keyword!=''" >
+          and instr(u.nickname, #{cond.keyword} ) &gt; 0
+        </if>
+        <if test="cond.mobile!=null and cond.mobile!=''" >
+          and instr(u.mobile, #{cond.mobile} ) &gt; 0
+        </if>
+			</where>
+      <trim prefix="order by" suffixOverrides=",">
+        <if test="cond.topSort==1" >
+          topNo desc
+        </if>
+        <if test="cond.salesSort==1" >
+          , dealCount desc
+        </if>
+        <if test="cond.salesSort==2" >
+          , dealCount asc
+        </if>
+        <if test="cond.priceSort==1" >
+          , startingPrice desc
+        </if>
+        <if test="cond.priceSort==2" >
+          , startingPrice asc
+        </if>
+        <if test="cond.commentSort==1" >
+          , goodCount desc
+        </if>
+        <if test="cond.commentSort==2" >
+          , goodCount asc
+        </if>
+      </trim>
+		</select>
+
+    <select id="getUserListTopForProvinceGroup" resultType="user">
+    SELECT *
+      FROM 
+      (SELECT u.*,  
+          @rank:=if(@curr_prov=c.province, @rank+1, 1) as rank, 
+          @curr_prov:=c.province as province
+        FROM t_user u
+          INNER JOIN t_city c ON c.id=u.cityId
+        WHERE u.clazz=${clazz} AND u.type=${type} AND c.province IN (${provinceSet})
+        ORDER BY province, id DESC) t_user_filter
+      WHERE rank &lt;= ${topN}
+    </select>
+
+    <select id="getUserListTopForCityGroup" resultType="user">
+    SELECT *
+      FROM 
+      (SELECT *,  @rank:=if(@curr_cityid=cityId, @rank+1, 1) as rank, @curr_cityid:=cityId
+        FROM t_user 
+        WHERE clazz=#{clazz} AND type=${type} AND cityId IN (${citySet})
+        ORDER BY cityId, id DESC) t_user_filter
+      WHERE rank &lt;= ${topN}
+    </select>
+
+    <select id="getUserMaxTopNo" resultType="int">
+      select max(topNo) 
+      from t_user
+    </select>
+
+    <select id="getUserMinTopNo" resultType="int">
+      select min(topNo) 
+      from t_user
+    </select>
+    
+    <select id="getUserCateIdList" resultType="int">
+      select cateId 
+      from t_user_cate
+      where userId=#{userId}
+    </select>
+
+    <insert id="insertUserCategory">
+      insert into t_user_cate (userId, cateId)
+       values (#{userId}, #{cateId})
+    </insert>
+
+    <delete id="deleteUserCategory">
+      delete 
+      from t_user_cate
+      where userId=#{userId}
+    </delete>
+
+    <select id="getUserCategory" resultType="String">
+      select name
+      from t_category 
+      where id in (select top 1 cateId from t_user_cate where userId=#{userId})
+    </select>
+
+    <!-- BankAccount -->
+    <insert id="insertBankAccount">
+      insert into t_bankaccount (userId, bankId, accountName, accountNo, idCard, mobile)
+      values (#{userId}, #{bankId}, #{accountName}, #{accountNo}, #{idCard}, #{mobile})
+    </insert>
+    
+    <select id="getBankAccountList" resultType="bankAccount">
+      select * 
+      from t_bankaccount
+      where userId=#{userId}
+    </select>
+
+    <select id="getBankAccountByUser" resultType="bankAccount">
+      select * 
+      from t_bankaccount
+      where userId=#{userId} and bankId=#{bankId}
+    </select>
+
+    <!-- RealAuthent -->
+    <select id="getRealAuthentByUser" resultType="realAuthent">
+      select * 
+      from t_realauthent
+      where userId=#{userId}
+      order by id desc
+    </select>
+
+    <select id="getRealAuthent" resultType="realAuthent">
+      select * 
+      from t_realauthent
+      where id=#{id}
+    </select>
+
+    <select id="findRealAuthentCount" resultType="int">
+      select count(*) 
+      from t_realauthent
+      <where>
+      </where>
+    </select>
+
+    <select id="findRealAuthentList" resultType="realAuthent">
+      select * 
+      from t_realauthent
+      <where>
+      </where>
+      order by id desc
+    </select>
+    
+    <insert id="insertRealAuthent">
+      insert into t_realauthent (userId, realname, idcard, sex, category, idcard1, idcard2, duedate, duedate2,
+      industry, mobile, address, company1, company, licenseDueDate, registrationNo, submitTime, authState)
+      values (#{userId}, #{realname}, #{idcard}, #{sex}, #{category}, #{idcard1}, #{idcard2}, #{dueDate}, #{dueDate2},
+      #{industry}, #{mobile}, #{address}, #{company1}, #{company}, #{licenseDueDate}, #{registrationNo}, #{submitTime}, #{authState})
+    </insert>
+
+    <update id="updateRealAuthent">
+      update t_realauthent set
+      authState=#{authState},
+      authTime=#{authTime},
+      authOperator=#{authOperator},
+      authMemo=#{authMemo}
+      where id=#{id}
+    </update>
+
+    <!-- AbilityAuthent -->
+    <select id="getAbilityAuthentByUser" resultType="abilityAuthent">
+      select * 
+      from t_abilityauthent
+      where userId=#{userId}
+      order by id desc
+    </select>
+
+    <select id="getAbilityAuthent" resultType="abilityAuthent">
+      select * 
+      from t_abilityauthent
+      where id=#{id}
+    </select>
+
+    <select id="findAbilityAuthentCount" resultType="int">
+      select count(*) 
+      from t_abilityauthent
+      <where>
+      </where>
+    </select>
+
+    <select id="findAbilityAuthentList" resultType="abilityAuthent">
+      select * 
+      from t_abilityauthent
+      <where>
+      </where>
+      order by id desc
+    </select>
+
+    <insert id="insertAbilityAuthent">
+      insert into t_abilityauthent (userId, link, describe, submitTime, authState, authGrade)
+      values (#{userId}, #{link}, #{describe}, #{submitTime}, #{authState}, #{authGrade})
+    </insert>
+
+    <update id="updateAbilityAuthent">
+      update t_abilityauthent set
+      authState=#{authState},
+      authGrade=#{authGrade},
+      authTime=#{authTime},
+      authOperator=#{authOperator},
+      authMemo=#{authMemo}
+      where id=#{id}
+    </update>
+    
+</mapper>
