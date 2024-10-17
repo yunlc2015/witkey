@@ -1,15 +1,13 @@
 
-<div align="center" >
-   <img src="http://witkey.kfayun.com/lib/images/logo.png" />
-</div>
+![输入图片说明](logo.png)
 
-<div align="center">
+<div>
 
 Witkey开源威客系统Java版
 
 </div>
 
-<div align="center" >
+<div>
     <a href="http://www.yunlc.com.cn/product/witkey">
         <img src="https://img.shields.io/badge/Licence-AGPL 3.0-green.svg?style=flat" />
     </a>
@@ -20,7 +18,7 @@ Witkey开源威客系统Java版
 
 #### 
 
-<div align="center">
+<div>
 
 [官网](http://www.yunlc.com.cn/product/witkey) |
 [在线体验](http://witkey.kfayun.com/) 
