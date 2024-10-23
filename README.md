@@ -102,21 +102,28 @@ Banner管理；
 ---
 
 ### UI界面展示
+首页
 ![首页](screenshot/web_index.png)
 
+任务页
 ![任务页](screenshot/web_task_list.png)
 
+任务详情页
 ![任务详情页](screenshot/web_task_detail.png)
 
+作品详情页
 ![作品详情页](screenshot/web_zuopin.png)
 
+设计师主页
 ![设计师主页](screenshot/web_designer.png)
 
+雇主管理页
 ![雇主管理页](screenshot/web_employer.png)
 
 ---
 
 ### 后台界面展示
+管理首页
 ![管理首页](screenshot/manage_main.png)
 
 ---
@@ -157,12 +164,12 @@ clone仓库到本地后
 
 
 ---
-###  📺 商业使用授权
+### 商业使用授权
 
 请访问 <a href="http://www.yunlc.com.cn/product/witkey/pricing" target="_blank">商用许可证</a> 说明页面
 
 ---
-###  💾 版权信息
+### 版权信息
 
 版权所有Copyright © 2015-2024 by 云联创科技 (http://www.yunlc.com.cn)
 
