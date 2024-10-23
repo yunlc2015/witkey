@@ -21,7 +21,7 @@
                 ${project.stateExplain!"交稿已隐藏"}
             </div>
         </div>
-        <#if project.selected == 1 >
+        <#if project.selected==1 && project.state.constant==1>
         <div class="txtr cir-red">
             <span><em>中标<br>
                 方案</em></span>

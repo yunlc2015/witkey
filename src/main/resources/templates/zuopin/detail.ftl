@@ -224,6 +224,8 @@
                   return false;
               });
           });
+
+        viewstat('${zuopin.id}', 'zuopininfo');
     </script>
 
 </@layout.foot>

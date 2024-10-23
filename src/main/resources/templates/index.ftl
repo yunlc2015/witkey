@@ -7,12 +7,13 @@
 -->
 <#import "/layout/page.ftl" as layout>
 <@layout.head>
+    <link rel="stylesheet" href="/lib/css/slick.css">
 </@layout.head>
 <@layout.body>
     <div id="top">
         <#include "/inc/top.ftl" />
     </div>
-    <@bannerAd banner=banner1 /> 
+    <@bannerAd banner=bannerAd1 /> 
     <div id="hd">
         <#include "/inc/search.ftl" />
     </div>
@@ -31,7 +32,7 @@
     <div id="banner">
         <div class="slider">
             <#list bannerList as banner>
-                    <div class="slide" id="dc" runat="server"><a href="${banner.targetUrl!}"></a></div>
+            <div class="slide" style="background-image:url(${banner.imageUrl})"><a href="${banner.targetUrl!}"></a></div>
             </#list>
         </div>
     </div>
@@ -48,7 +49,7 @@
                         </div>
                         <div class="txt">
                             <h3>${bdinfo.title}</h3>
-                            <p>预算：<span>￥{bdinfo.price}元</span></p>
+                            <p>预算：<span>${bdinfo.price}元</span></p>
                             <a href="/task/publish" class="btn-h1">发布一个类似的需求</a>
                         </div>
                     </div>
@@ -308,7 +309,7 @@
                 </ul>
             </div>
 
-            <@bannerAd banner=bannerAd2 />
+            <@bannerAd banner=bannerAd21 />
 			<div class="h20"></div>
 
             <div class="g-tit1">
@@ -341,7 +342,7 @@
                 </#list>
             </ul>
             
-            <@bannerAd banner=bannerAd3 />
+            <@bannerAd banner=bannerAd22 />
 			<div class="h20"></div>
 
             <div class="g-tit1">
@@ -381,6 +382,96 @@
     </div>
 </@layout.body>
 <@layout.foot>
-    <link rel="stylesheet" href="/lib/css/slick.css">
     <script src="/lib/js/slick.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // banner滚动
+            $('#banner .slider').slick({
+                dots: true,
+                arrows: false,
+                autoplay: true,
+                slidesToShow: 1,
+                autoplaySpeed: 5000,
+                pauseOnHover: false,
+                lazyLoad: 'ondemand'
+            });
+
+            // 首页文字滚动
+            $(".index-txt .slider li").unwrap();
+            $(".index-txt .slider li").each(function (i) { $(".index-txt .slider li").slice(i * 2, i * 2 + 2).wrapAll("<ul></ul>"); });
+            $('.index-txt .slider').slick({
+                dots: false,
+                arrows: false,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                pauseOnHover: false,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 1
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
+            });
+
+            $("#quickSubmit").click(function () {
+                var title = $("#title").val();
+                if (title == '') {
+                    alert("请输入您的称呼。");
+                    return false;
+                }
+
+                var mobile = $("#mobile").val();
+                if (mobile == '') {
+                    alert("请输入您的手机号。");
+                    return false;
+                }
+                if (mobile.length != 13 && mobile.substring(0, 1) != '1') {
+                    alert("无效的手机号。");
+                    return false;
+                }
+
+                var cate = $("cate option:selected").val();
+                if (cate == '') {
+                    alert("请选择需求类型。");
+                    return false;
+                }
+
+                var subscribe = $("subscribe").val();
+                if (subscribe == '') {
+                    alert("请输入需求描述。");
+                    return false;
+                }
+
+                $("#quickSubmit").enable(false);
+                var options = {
+                    url: 'ajax.aspx?cmd=quick',
+                    type: 'post',
+                    dataType: 'text',
+                    data: $("#quickForm").serialize(),
+                    success: function (data) {
+                        if (data.length > 0)
+                            alert(data);
+
+                        $("#quickSubmit").enable(true);
+                    }
+                };
+                $.ajax(options);
+                return false;
+            });
+        });
+
+        viewstat('0', 'index');
+    </script>
 </@layout.foot>

@@ -83,13 +83,14 @@ public class PagerInfo {
     }
 
     public String getBaseUrl() {
-        return this.baseUrl;
+        return this.baseUrl + (baseUrl.indexOf("?") == -1 ? "?" : "&");
     }
 
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
+    
     public boolean hasPrev() {
         return pageNo > 1;
     }
@@ -141,7 +142,7 @@ public class PagerInfo {
                 return baseUrl + "&page=" + page;
         }
     }
-
+    
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Page{");
@@ -149,6 +150,7 @@ public class PagerInfo {
         sb.append(", totalPages=").append(totalPages);
         sb.append(", totalCount=").append(totalCount);
         sb.append(", pageSize=").append(pageSize);
+        sb.append(", baseUrl=").append(baseUrl);
         sb.append('}');
         return sb.toString();
     }

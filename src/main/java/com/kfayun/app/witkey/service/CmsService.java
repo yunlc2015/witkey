@@ -12,7 +12,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.kfayun.app.witkey.PageList;
-import com.kfayun.app.witkey.condition.*;
 import com.kfayun.app.witkey.model.*;
 
 /**
@@ -25,15 +24,15 @@ public interface CmsService {
     public Map<String, String> getBdNameList();
 
     @Cacheable("banner")
-    public List<Banner> getBannersByLocation(String location);
+    public List<Banner> getBannerListByLocation(String location);
 
-    public List<BdInfo> getBdInfosByName(String name, int num);
+    public List<BdInfo> getBdInfoListByName(String name, int num);
 
     public PageList<BdInfo> findBdInfoList(
                 String name, int pageNo, int pageSize);
 
     public PageList<Article> findArticleList(
-            ArticleCondition cond, int pageNo, int pageSize);
+            String keyword, int pageNo, int pageSize);
 
     @Cacheable("article")
     public Article getArticleByPath(String path);

@@ -20,7 +20,7 @@ public class Settings {
     private String seoKeywords;
     private String seoDescription;
 	private String cookieDomain;
-	private String cookieName;
+	private String cookiePrefix;
 	private String cookieSecret;
     private String serviceTel; // 客服电话
     private String icpBeianNo; // ICP备案号
@@ -97,12 +97,12 @@ public class Settings {
         this.cookieDomain = cookieDomain;
     }
 
-    public String getCookieName() {
-        return cookieName;
+    public String getCookiePrefix() {
+        return cookiePrefix;
     }
 
-    public void setCookieName(String cookieName) {
-        this.cookieName = cookieName;
+    public void setCookiePrefix(String cookiePrefix) {
+        this.cookiePrefix = cookiePrefix;
     }
 
     public String getCookieSecret() {

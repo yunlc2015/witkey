@@ -131,7 +131,7 @@ public interface TaskService {
      * @param taskId
      * @return
      */
-    public TaskInfo getTaskInfo(int taskId);
+    public TaskInfo getTaskInfo(int id);
 
     /**
      * 获取任务文件列表
@@ -189,4 +189,14 @@ public interface TaskService {
      * @return
      */
     public int settleTask(TaskInfo taskInfo, Map<Integer, BigDecimal> dict);
+
+    /**
+     * 任务退款
+     * 
+     * @param taskInfo
+     * @param refundAmount
+     * @return
+     */
+    public int refundTask(TaskInfo taskInfo, BigDecimal refundAmount);
+    
 } 

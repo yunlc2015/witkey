@@ -19,10 +19,10 @@ import com.kfayun.app.witkey.model.*;
  */
 public interface CmsMapper {
 
-    public List<Banner> getBannersByLocation(
+    public List<Banner> getBannerListByLocation(
         @Param("location")String location);
 
-    public List<BdInfo> getBdInfosByName(
+    public List<BdInfo> getBdInfoListByName(
         @Param("name")String name, 
         @Param("limit")int num);
 
@@ -35,10 +35,10 @@ public interface CmsMapper {
         @Param("limit")int limit);
 
     public int findArticleCount(
-            @Param("cond")ArticleCondition cond);
+            @Param("keyword")String keyword);
 
     public List<Article> findArticleList(
-            @Param("cond")ArticleCondition cond, 
+        @Param("keyword")String keyword, 
             @Param("offset")int offset, 
             @Param("limit")int limit);
 

@@ -41,15 +41,15 @@ public class Project {
     private String designerMobile;
     private String designerSpecial; //
 
-    private String taskName; // 表关联
-    private String taskRequire; // 
-    private String taskDetails;
-    private int taskService;
-    private BigDecimal taskAmount; // 表关联
-    private Date taskPubTime; // 表关联
-    private TaskState taskState; // 表关联
-    private String employer; //表关联
-    private int taskUserId; //表关联
+    // private String taskName; // 表关联
+    // private String taskRequire; // 
+    // private String taskDetails;
+    // private int taskService;
+    // private BigDecimal taskAmount; // 表关联
+    // private Date taskPubTime; // 表关联
+    // private TaskState taskState; // 表关联
+    // private String employer; //表关联
+    // private int taskUserId; //表关联
 
     private List<ProjectFile> fileList;
 
@@ -218,111 +218,111 @@ public class Project {
         this.designerSpecial = designerSpecial;
     }
 
-    public String getTaskName() {
-        return taskName;
-    }
+    // public String getTaskName() {
+    //     return taskName;
+    // }
 
 
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
+    // public void setTaskName(String taskName) {
+    //     this.taskName = taskName;
+    // }
 
 
 
-    public String getTaskRequire() {
-        return taskRequire;
-    }
+    // public String getTaskRequire() {
+    //     return taskRequire;
+    // }
 
 
 
-    public void setTaskRequire(String taskRequire) {
-        this.taskRequire = taskRequire;
-    }
+    // public void setTaskRequire(String taskRequire) {
+    //     this.taskRequire = taskRequire;
+    // }
 
 
 
-    public String getTaskDetails() {
-        return taskDetails;
-    }
+    // public String getTaskDetails() {
+    //     return taskDetails;
+    // }
 
 
 
-    public void setTaskDetails(String taskDetails) {
-        this.taskDetails = taskDetails;
-    }
+    // public void setTaskDetails(String taskDetails) {
+    //     this.taskDetails = taskDetails;
+    // }
 
 
 
-    public int getTaskService() {
-        return taskService;
-    }
+    // public int getTaskService() {
+    //     return taskService;
+    // }
 
 
 
-    public void setTaskService(int taskService) {
-        this.taskService = taskService;
-    }
+    // public void setTaskService(int taskService) {
+    //     this.taskService = taskService;
+    // }
 
 
 
-    public BigDecimal getTaskAmount() {
-        return taskAmount;
-    }
+    // public BigDecimal getTaskAmount() {
+    //     return taskAmount;
+    // }
 
 
 
-    public void setTaskAmount(BigDecimal taskAmount) {
-        this.taskAmount = taskAmount;
-    }
+    // public void setTaskAmount(BigDecimal taskAmount) {
+    //     this.taskAmount = taskAmount;
+    // }
 
 
 
-    public Date getTaskPubTime() {
-        return taskPubTime;
-    }
+    // public Date getTaskPubTime() {
+    //     return taskPubTime;
+    // }
 
 
 
-    public void setTaskPubTime(Date taskPubTime) {
-        this.taskPubTime = taskPubTime;
-    }
+    // public void setTaskPubTime(Date taskPubTime) {
+    //     this.taskPubTime = taskPubTime;
+    // }
 
 
 
-    public TaskState getTaskState() {
-        return taskState;
-    }
+    // public TaskState getTaskState() {
+    //     return taskState;
+    // }
 
 
 
-    public void setTaskState(TaskState taskState) {
-        this.taskState = taskState;
-    }
+    // public void setTaskState(TaskState taskState) {
+    //     this.taskState = taskState;
+    // }
 
 
 
-    public String getEmployer() {
-        return employer;
-    }
+    // public String getEmployer() {
+    //     return employer;
+    // }
 
 
 
-    public void setEmployer(String employer) {
-        this.employer = employer;
-    }
+    // public void setEmployer(String employer) {
+    //     this.employer = employer;
+    // }
 
 
 
-    public int getTaskUserId() {
-        return taskUserId;
-    }
+    // public int getTaskUserId() {
+    //     return taskUserId;
+    // }
 
 
 
-    public void setTaskUserId(int taskUserId) {
-        this.taskUserId = taskUserId;
-    }
+    // public void setTaskUserId(int taskUserId) {
+    //     this.taskUserId = taskUserId;
+    // }
 
 
 

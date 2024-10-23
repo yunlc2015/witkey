@@ -100,7 +100,7 @@ public interface UserMapper {
     public void insertAbilityAuthent(AbilityAuthent ra);
 
     public AbilityAuthent getAbilityAuthent(
-        @Param("aid")int aid);
+        @Param("id")int id);
 
     public int findAbilityAuthentCount(
         @Param("cond")AbilityAuthCondition cond);
@@ -120,7 +120,7 @@ public interface UserMapper {
     public void insertRealAuthent(RealAuthent ra);
 
     public RealAuthent getRealAuthent(
-        @Param("aid")int aid);
+        @Param("id")int id);
 
     public int findRealAuthentCount(
         @Param("cond")RealAuthCondition cond);
@@ -138,4 +138,9 @@ public interface UserMapper {
     public int getUserMaxTopNo();
 
     public int getUserMinTopNo();
+
+    public int updateUserTopNo(
+        @Param("id")int id,
+        @Param("topNo")int topNo);
+        
 }

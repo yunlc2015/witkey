@@ -37,7 +37,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 /**
  * 管理操作切面类
  *
- * @author billy (billy_zh@126.com)
+ * @author Billy Zhang (billy_zh@126.com)
  */
 @Aspect
 @Component
@@ -81,8 +81,8 @@ public class ManageOperateAspect {
         }
 
         ManageAction action = oper.value();
-        if (ManageAction.USER_LOGIN == action ||
-                ManageAction.USER_LOGOUT == action) {
+        if (ManageAction.USR_LOGIN == action ||
+                ManageAction.USR_LOGOUT == action) {
             return;
         }
 
@@ -147,10 +147,12 @@ public class ManageOperateAspect {
 
             ActionLog log = new ActionLog();
             log.setCategory(action.getCategory());
-            log.setActionName(methodName);
+            log.setActionName(action.getName());
             log.setActionDescr( !StrUtil.isEmpty(opDescr) ? opDescr : action.getDescr() );
             log.setActionArgs(jsonMapper.writeValueAsString(data));
+            log.setMethodName(methodName);
             log.setDuration(duration);
+            log.setKind("manage");
             log.setLogTime(new Date());
             log.setLogIp(WebUtil.getRealIP(request));
 
@@ -159,16 +161,18 @@ public class ManageOperateAspect {
             }
 
             AdminAuth auth = (AdminAuth)request.getAttribute(Constants.ADMIN_AUTH);
-            if (ManageAction.USER_LOGIN == action) {
+            if (ManageAction.USR_LOGIN == action) {
                 if (auth == null) {
                     log.setResult("登录失败。");
                 } else {
                     log.setResult("登录成功。");
-                    log.setUserId(auth.getUser().getId());
+                    log.setUserId(auth.getAdmin().getId());
+                    log.setOperator(auth.getName());
                 }
             } else {
                 if (auth != null) {
-                    log.setUserId(auth.getUser().getId());
+                    log.setUserId(auth.getAdmin().getId());
+                    log.setOperator(auth.getName());
                 }
             }
 

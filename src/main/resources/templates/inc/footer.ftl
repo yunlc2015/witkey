@@ -43,7 +43,7 @@
         周一至周日9：00-23：00
         <a href="#" target="_blank" class="g-btn1 ani">联系在线客服</a>
     </div>
-    <div class="fma"><img src="${settings.wxQrcode!'/lib/images/ma.jpg'}" alt=""></div>
+    <div class="fma"><img src="<#if settings.wxQrcode?has_content>${settings.wxQrcode}<#else>/lib/images/ma.jpg</#if>" alt=""></div>
 </div>
 <div class="fbottom">
     <div class="fguide">

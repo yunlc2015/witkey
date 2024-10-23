@@ -134,7 +134,15 @@ public class UserFileController extends BaseController {
 			response.setStatus(HttpStatus.NOT_FOUND.value());
 			return;
 		}
-		
+		String[] parts = filename.split("-");
+		if (parts.length > 1) {
+			int userId = Integer.parseInt(parts[0]);
+			if (userId != user.getId()) {
+				// 403 只允许自己查看
+				response.setStatus(HttpStatus.FORBIDDEN.value());
+				return;
+			}
+		}
 		try (OutputStream outStream = response.getOutputStream()) {
 			StreamUtils.copy(new FileInputStream(path.toFile()), outStream);
 		}

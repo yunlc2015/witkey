@@ -14,8 +14,8 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * 操作注解
- * @author billy (billy_zh@126.com)
- *
+ * 
+ * @author Billy Zhang (billy_zh@126.com)
  */
 @Target(ElementType.METHOD)  
 @Retention(RetentionPolicy.RUNTIME)  

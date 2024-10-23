@@ -155,13 +155,4 @@ public interface FinanceService {
      */
     public int doWithdraw(int userId, int bankId, BigDecimal amount);
 
-    /**
-     * 任务退款处理
-     * 
-     * @param taskInfo
-     * @param amount
-     * @return
-     */
-    public int doTaskRefund(TaskInfo taskInfo, BigDecimal amount);
-
 }

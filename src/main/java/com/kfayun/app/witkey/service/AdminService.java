@@ -17,15 +17,15 @@ import com.kfayun.app.witkey.model.Admin;
  */
 public interface AdminService {
 
-    public Admin getAdminByPasswd(String adminName, String encryptPasswd);
-
     public Admin getAdminByName(String adminName);
 
     public int updateAdmin(Admin admin);
 
     public void saveAdmin(Admin adm);
 
-    public List<Admin> getAdmins();
+    public int deleteAdmin(int id);
+    
+    public List<Admin> getAdminList();
 
     public Admin getAdmin(int id);
 

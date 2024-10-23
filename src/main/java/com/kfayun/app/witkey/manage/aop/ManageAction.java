@@ -14,23 +14,43 @@ import java.util.stream.Collectors;
 /**
  * 管理操作
  *
- * @author billy (billy_zh@126.com)
+ * @author Billy Zhang (billy_zh@126.com)
  */
 public enum ManageAction {
 
     NONE("none", "", "", 0),
 
-    USER_LOGIN("UserLogin", "base", "用户登录", 1),
-    USER_LOGOUT("UserLogout", "base", "用户退出", 1),
+    USR_LOGIN("UsrLogin", "user", "用户登录", 1),
+    USR_LOGOUT("UsrLogout", "user", "用户退出", 1),
+    USR_VIEW("UsrView", "user", "用户查看", 0),
+    USR_MANAGE("UsrManage", "user", "用户管理", 1),
+    USR_REALAUTHENT_AUDIT("UsrRealAuthentAudit", "user", "用户实名认证审核", 1),
+    USR_ABILITYAUTHENT_AUDIT("UsrAbilityAuthentAudit", "user", "用户实力认证审核", 1),
 
-    USER_VIEW("UserView", "user", "用户查看", 0),
-    USER_MANAGE("UserManage", "user", "用户管理", 1),
-    ROLE_VIEW("RoleView", "user", "角色查看", 0),
-    ROLE_MANAGE("RoleManage", "user", "角色管理", 1),
+    OPS_BANNER_ADD("OpsBannerAdd", "operate", "Banner添加", 1),
+    OPS_BANNER_EDIT("OpsBannerEdit", "operate", "Banner编辑", 1),
+    OPS_BANNER_DELETE("OpsBannerDelete", "operate", "Banner删除", 1),
+    OPS_ARTICLE_EDIT("OpsArticleEdit", "operate", "文章编辑", 1),
+    OPS_BDINFO_ADD("OpsBdinfoAdd", "operate", "推广添加", 1),
+    OPS_BDINFO_EDIT("OpsBdinfoEdit", "operate", "推广编辑", 1),
+    OPS_BDINFO_DELETE("OpsBdinfoDelete", "operate", "推广删除", 1),
+    
+    TSK_MANAGE("TskManage", "task", "任务管理", 0),
+    TSK_AUDIT("TskAudit", "task", "任务审核", 1),
+    TSK_PAYMENT("TskPayment", "task", "任务付款", 1),
+    TSK_REFUND("TskRefunc", "task", "任务退款", 1),
+    TSK_SETTLE("TskSettle", "task", "任务结算", 1),
 
-    ACTION_VIEW("ActionView", "system", "系统日志查看", 0),
-    SETTINGS_VIEW("SettingsView", "system", "全局设置查看", 0),
-    SETTINGS_UPDATE("SettingsUpdate", "system", "全局设置更新", 1);
+    FIN_WITHDRAWAL_SETTLE("FinWithdrawalSettle", "finance", "提现结算", 1),
+
+    SYS_ACTIONLOG_VIEW("SysActionLogView", "system", "系统日志查看", 0),
+    SYS_GENERALSETTINGS_VIEW("SysGeneralSettingsView", "system", "一般设置查看", 0),
+    SYS_GENERALSETTINGS_UPDATE("SysGeneralSettingsUpdate", "system", "一般设置更新", 1),
+    SYS_PAYSETTINGS_VIEW("SysPaySettingsView", "system", "支付设置查看", 0),
+    SYS_PAYSETTINGS_UPDATE("SysPaySettingsUpdate", "system", "支付设置更新", 1),
+    SYS_ADMIN_ADD("SysAdminAdd", "system", "管理员添加", 1),
+    SYS_ADMIN_EDIT("SysAdminEdit", "system", "管理员编辑", 1),
+    SYS_ADMIN_DELETE("SysAdminDelete", "system", "管理员删除", 1);
     
     private String name;
     private String category;
@@ -79,8 +99,8 @@ public enum ManageAction {
         List<ManageAction> list = new ArrayList<>();
         for (ManageAction oper : ManageAction.values()) {
             // 不需要权限控制的操作。
-            if (ManageAction.USER_LOGIN == oper ||
-                    ManageAction.USER_LOGOUT == oper ||
+            if (ManageAction.USR_LOGIN == oper ||
+                    ManageAction.USR_LOGOUT == oper ||
                     ManageAction.NONE == oper) {
                 continue;
             }

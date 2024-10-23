@@ -8,6 +8,7 @@ package com.kfayun.app.witkey.service.impl;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
@@ -363,9 +364,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Transactional
     @Override
-    public int settleTask(TaskInfo ti, Map<Integer, BigDecimal> dict) {
-        ti.setTaskState( TaskState.Finished);
-        taskMapper.updateTaskInfo( ti);
+    public int settleTask(TaskInfo taskInfo, Map<Integer, BigDecimal> dict) {
+        taskInfo.setTaskState( TaskState.Finished);
+        taskMapper.updateTaskInfo( taskInfo);
 
         for (int uid : dict.keySet()) {
             Payment pay = new Payment();
@@ -374,7 +375,7 @@ public class TaskServiceImpl implements TaskService {
             pay.setSummary("任务结算");
             pay.setKind(3);  // 结算
             pay.setPayTime(new Date());
-            pay.setTaskId(ti.getId());
+            pay.setTaskId(taskInfo.getId());
             financeService.savePayment(pay);
 
             // update user balance.
@@ -384,4 +385,25 @@ public class TaskServiceImpl implements TaskService {
         return 1;
         
     }
+
+    @Transactional
+    @Override
+    public int refundTask(TaskInfo taskInfo, BigDecimal refundAmount) {
+        taskInfo.setTaskState( TaskState.Cancelled);
+        taskMapper.updateTaskInfo( taskInfo);
+
+        Payment pay = new Payment();
+        pay.setAmount( refundAmount );
+        pay.setUserId( taskInfo.getUserId() );
+        pay.setKind( 2 );
+        pay.setSummary( "任务退款" );
+        pay.setTaskId( taskInfo.getId() );
+        pay.setPayTime( new Date() );
+        financeService.savePayment(pay);
+
+        userService.updateUserBalance(taskInfo.getUserId(), refundAmount);
+
+        return 1;
+    }
+    
 }

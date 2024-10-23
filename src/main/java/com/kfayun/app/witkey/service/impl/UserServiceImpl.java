@@ -248,6 +248,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int updateUserTopNo(int id, int topNo) {
+
+        return userMapper.updateUserTopNo(id, topNo);
+    }
+
+    @Override
     public int updateUserBalance(int id, BigDecimal amount) {
 
         return userMapper.updateUserBalance(id, amount);

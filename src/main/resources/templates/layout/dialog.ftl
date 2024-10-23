@@ -26,12 +26,10 @@
 <#macro body class="">
 <body class=${class}>
     <#nested >
-
 </#macro>
 <#macro foot>
     <script src="/lib/js/jquery.js"></script>
     <script src="/lib/js/lib.js"></script>
-
     <#nested >
 </body>
 </html>

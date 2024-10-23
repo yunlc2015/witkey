@@ -19,18 +19,17 @@ import com.kfayun.app.witkey.model.Admin;
  */
 public interface AdminMapper {
 
-    public Admin getAdminByPasswd(
-        @Param("adminName")String adminName, 
-        @Param("passwd")String passwd);
-    
     public Admin getAdminByName(
-        @Param("adminName")String adminName);
+        @Param("name")String name);
 
     public int updateAdmin(Admin admin);
 
     public void insertAdmin(Admin adm);
 
-    public List<Admin> getAdmins();
+    public List<Admin> getAdminList();
+
+    public int deleteAdmin(
+        @Param("id")int id);
 
     public Admin getAdmin(
         @Param("id")int id);

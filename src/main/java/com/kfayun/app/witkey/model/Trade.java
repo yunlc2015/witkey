@@ -32,7 +32,7 @@ public class Trade {
 
     private Date addTime;
 
-    private int payType; // 付款方式  101:支付宝 103:微信
+    private int payType; // 付款方式  101:支付宝 103:微信 109:银行转帐
 
     private int payState; // 付款状态  0:unpay, 1:paid
 

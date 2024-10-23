@@ -5,6 +5,11 @@
  */
 package com.kfayun.app.witkey.condition;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kfayun.app.witkey.util.StrUtil;
+
 public class TaskCondition {
     public TaskCondition() {
         taskState = -1;
@@ -162,5 +167,18 @@ public class TaskCondition {
         this.topSort = topSort;
     }
 
-    
+    public String getQueryString() {
+        List<String> list = new ArrayList<>();
+        if (StrUtil.isEmpty(keyword)) {
+            list.add("keyword=" + keyword);
+        }
+        if (StrUtil.isEmpty(username)) {
+            list.add("username=" + username);
+        }
+        if (list.isEmpty()) {
+            return "";
+        }
+        return "?" + StrUtil.json(list, "&");
+    }
+
 }

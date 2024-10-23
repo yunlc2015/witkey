@@ -29,13 +29,8 @@ public class AdminServiceImpl implements AdminService {
     private AdminMapper adminMapper;
 
     @Override
-    public Admin getAdminByPasswd(String adminName, String encryptPasswd) {
-        return adminMapper.getAdminByPasswd(adminName, encryptPasswd);
-    }
-
-    @Override
-    public Admin getAdminByName(String adminName) {
-        return adminMapper.getAdminByName(adminName);
+    public Admin getAdminByName(String name) {
+        return adminMapper.getAdminByName(name);
     }
 
     @Override
@@ -44,13 +39,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public int deleteAdmin(int id) {
+        return adminMapper.deleteAdmin(id);
+    }
+
+    @Override
     public void saveAdmin(Admin adm) {
         adminMapper.insertAdmin(adm);
     }
 
     @Override
-    public List<Admin> getAdmins() {
-        return adminMapper.getAdmins();
+    public List<Admin> getAdminList() {
+        return adminMapper.getAdminList();
     }
 
     @Override

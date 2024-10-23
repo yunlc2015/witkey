@@ -10,8 +10,8 @@
 <mapper namespace="com.kfayun.app.witkey.dao.SysMapper" >
 
   <insert id="insertActionLog">
-    insert into t_actionlog (userId,category,methodName,actionName,actionDescr,actionArgs,duration,result,logTime,logIp)
-    values (#{userId},#{category},#{methodName},#{actionName},#{actionDescr},#{actionArgs},#{duration},#{result},#{logTime},#{logIp})
+    insert into t_actionlog (userId,category,methodName,actionName,actionDescr,actionArgs,duration,result,kind,logTime,operator,logIp)
+    values (#{userId},#{category},#{methodName},#{actionName},#{actionDescr},#{actionArgs},#{duration},#{result},#{kind},#{logTime},#{operator},#{logIp})
   </insert>
 
   <select id="getActionLog" resultType="actionLog">
@@ -58,5 +58,43 @@
             `value`=#{value}
             where `key`=#{key}
     </update>
+
+    <insert id="insertViewLog">
+        insert into t_viewlog ( dataId, dataKey, userId, clientIp, device, addTime )
+        values ( #{dataId}, #{dataKey}, #{userId}, #{clientIp}, #{device}, #{addTime})
+        <selectKey resultType="int" keyProperty="id">
+            select last_insert_id() AS id
+        </selectKey>
+    </insert>
+
+    <select id="getViewStatisListForDate" resultType="java.util.Map">
+        select DATE_FORMAT(addTime,'%Y-%m-%d') name, 
+            count(DISTINCT(clientIp)) uv, 
+            count(*) pv
+        from t_viewlog
+        where addTime &gt; #{start}
+        group by DATE_FORMAT(addTime,'%Y-%m-%d')
+        order by name
+    </select>
+
+    <select id="getViewStatisListForWeek" resultType="java.util.Map">
+        select DATE_FORMAT(addTime,'%Y-%u') name, 
+            count(DISTINCT(clientIp)) uv, 
+            count(*) pv
+        from t_viewlog
+        where addTime &gt; #{start}
+        group by DATE_FORMAT(addTime,'%Y-%u')
+        order by name
+    </select>
+
+    <select id="getViewStatisListForMonth" resultType="java.util.Map">
+        select DATE_FORMAT(addTime,'%Y-%m') name, 
+            count(DISTINCT(clientIp)) uv, 
+            count(*) pv
+        from t_viewlog
+        where addTime &gt; #{start}
+        group by DATE_FORMAT(addTime,'%Y-%m')
+        order by name
+    </select>
 
 </mapper>

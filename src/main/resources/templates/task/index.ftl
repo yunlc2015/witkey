@@ -7,6 +7,7 @@
 -->
 <#import "/layout/page.ftl" as layout>
 <@layout.head>
+    <link rel="stylesheet" href="/lib/css/slick.css">
 </@layout.head>
 <@layout.body>
 
@@ -38,15 +39,9 @@
 
     <div id="bd">
         <div class="wp">
-            <ul class="tab-ico">
-                <li class="on">
-                    <div class="ico"><a href="javascript:void(0);">
-                        <img src="/lib/images/tz-ico1.png" alt=""></a></div>
-                    抢市场标</li>
-                <li>
-                    <div class="ico"><a href="index2">
-                        <img src="/lib/images/tz-ico2.png" alt=""></a></div>
-                    抢管家标</li>
+            <ul class="tab-tit2">
+                <li class="on"><a href="javascript:void(0);">抢市场标</a></li>
+                <li><a href="index2">抢管家标</a></li>
             </ul>
             <div class="g-tit2">
                 <h3>筛选</h3>
@@ -140,7 +135,6 @@
 </@layout.body>
 <@layout.foot>
 
-    <link rel="stylesheet" href="/lib/css/slick.css">
     <script src="/lib/js/slick.min.js"></script>
     <script>
         $(document).ready(function ($) {

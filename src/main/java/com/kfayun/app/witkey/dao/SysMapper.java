@@ -5,12 +5,15 @@
  */
 package com.kfayun.app.witkey.dao;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.kfayun.app.witkey.model.ActionLog;
 import com.kfayun.app.witkey.model.SettingItem;
+import com.kfayun.app.witkey.model.ViewLog;
 
 /**
  * 系统相关实体Mapper
@@ -39,5 +42,16 @@ public interface SysMapper {
 
     ActionLog getActionLog(
             @Param("id") int id);
+
+        void insertViewLog(ViewLog log);
+
+        List<Map<String, Object>> getViewStatisListForDate(
+                @Param("start") Date start);
+
+        List<Map<String, Object>> getViewStatisListForWeek(
+                @Param("start") Date start);
+                
+        List<Map<String, Object>> getViewStatisListForMonth(
+                @Param("start") Date start);
 
 }

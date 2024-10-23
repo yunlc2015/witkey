@@ -19,6 +19,8 @@ public class Admin {
 
     private String passwd;
 
+    private String pwdSalt;
+
     private String description;
 
     private int state;
@@ -49,6 +51,14 @@ public class Admin {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
+    }
+
+    public String getPwdSalt() {
+        return pwdSalt;
+    }
+
+    public void setPwdSalt(String pwdSalt) {
+        this.pwdSalt = pwdSalt;
     }
 
     public String getDescription() {

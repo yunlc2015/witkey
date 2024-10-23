@@ -186,6 +186,8 @@
                 }
             });
         });
+        
+        viewstat('${user.id}', 'deployer');
     </script>
 
     <link rel="stylesheet" href="/lib/css/slick.css">

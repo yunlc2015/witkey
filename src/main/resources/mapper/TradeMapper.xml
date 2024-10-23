@@ -69,14 +69,16 @@
     </select>
 
     <select id="findTradeList" resultType="trade">
-      select * 
-      from t_trade
+      select t.*,
+        u.nickname username 
+      from t_trade t
+        left join t_user u on u.id=t.userId
       <where>
         <if test="cond.payType!=0" >
-          payType=#{cond.payType}
+          p.payType=#{cond.payType}
         </if>
         <if test="cond.payState!=-1" >
-          and payState=#{cond.payState}
+          and p.payState=#{cond.payState}
         </if>
       </where>
       order by id desc

@@ -67,7 +67,7 @@ public class WebErrorHandler implements TemplateExceptionHandler {
 
 		// 获取登录用户
 		User loginUser = null;
-        String cookieStr = WebUtil.readCookie(request, settings.getCookieName());
+        String cookieStr = WebUtil.readCookie(request, settings.getCookiePrefix()+"_user");
         if (!StringUtils.isEmpty(cookieStr)) {
             try {
                 String idStr = CryptoUtil.decryptDES(settings.getCookieSecret(), cookieStr);

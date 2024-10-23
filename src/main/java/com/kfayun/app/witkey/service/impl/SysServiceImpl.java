@@ -5,6 +5,7 @@
  */
 package com.kfayun.app.witkey.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import com.kfayun.app.witkey.dao.SysMapper;
 import com.kfayun.app.witkey.model.ActionLog;
 import com.kfayun.app.witkey.model.SettingItem;
 import com.kfayun.app.witkey.model.Settings;
+import com.kfayun.app.witkey.model.ViewLog;
 import com.kfayun.app.witkey.service.SysService;
 
 /**
@@ -66,8 +68,8 @@ public class SysServiceImpl implements SysService {
 				sett.setStatisScript(value);
 			} else if ("cookieDomain".equalsIgnoreCase(key)) {
 				sett.setCookieDomain(value);
-			} else if ("cookieName".equalsIgnoreCase(key)) {
-				sett.setCookieName(value);
+			} else if ("cookiePrefix".equalsIgnoreCase(key)) {
+				sett.setCookiePrefix(value);
 			} else if ("cookieSecret".equalsIgnoreCase(key)) {
 				sett.setCookieSecret(value);
 			} else if ("serviceTel".equalsIgnoreCase(key)) {
@@ -142,5 +144,20 @@ public class SysServiceImpl implements SysService {
     public ActionLog getActionLog(int id) {
         return sysMapper.getActionLog(id);
     }
-    
+
+	@Override
+    public void saveViewLog(ViewLog log) {
+        sysMapper.insertViewLog(log);
+    }
+
+	@Override
+    public List<Map<String, Object>> getViewStatisListForTime(Date start, String kind) {
+		if ("week".equalsIgnoreCase(kind)) {
+			return sysMapper.getViewStatisListForWeek(start);
+		} else if ("month".equalsIgnoreCase(kind)) {
+			return sysMapper.getViewStatisListForMonth(start);
+		} else {
+			return sysMapper.getViewStatisListForDate(start);
+		}
+	}
 }

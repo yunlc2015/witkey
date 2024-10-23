@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.math.BigDecimal;
@@ -26,6 +27,7 @@ import com.kfayun.app.witkey.util.*;
 import com.kfayun.app.witkey.web.aop.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,6 +64,8 @@ public class HomeController extends BaseController {
 	private VerifyService verifyService;
 	@Autowired
 	private CommonService commonService;
+	@Autowired
+	private SysService sysService;
 	
 	/**
 	 * 健康状态
@@ -143,7 +147,7 @@ public class HomeController extends BaseController {
 			WebUtil.writeCookie(response, 
 				getCookieDomain(settings.getCookieDomain()), 
 				"",
-				settings.getCookieName(), 
+				settings.getCookiePrefix() + "_user", 
 				CryptoUtil.encryptDES(settings.getCookieSecret(), ""+user.getId()),
 				remDay);
 			
@@ -175,7 +179,7 @@ public class HomeController extends BaseController {
 			response, 
 			getCookieDomain(settings.getCookieDomain()), 
 			"", 
-			settings.getCookieName());
+			settings.getCookiePrefix() + "_user");
 		response.sendRedirect(config.getContextPath() + "/index");
     }
 
@@ -413,7 +417,7 @@ public class HomeController extends BaseController {
 			WebUtil.writeCookie(response, 
 				getCookieDomain(settings.getCookieDomain()), 
 				"",
-				settings.getCookieName(), 
+				settings.getCookiePrefix() + "_user", 
 				CryptoUtil.encryptDES(settings.getCookieSecret(), ""+user.getId()),
 				0);
 
@@ -624,4 +628,49 @@ public class HomeController extends BaseController {
 	       responseOutputStream.flush(); 
        }
     }
+
+	@PostMapping("/viewstat")
+    @ResponseBody
+	public JsonResult<Integer> viewStat(
+			@RequestParam("dataid")String dataId,
+			@RequestParam("datakey")String dataKey,
+			HttpServletRequest request) {
+		
+    	String clientIp = WebUtil.getRealIP(request);
+		if (clientIp.equals("127.0.0.1")
+				|| clientIp.equals("0:0:0:0:0:0:0:1")) {
+			return JsonResult.fail(-1, "local access.");
+		}
+
+		String device = "pc";
+		String userAgent = request.getHeader("USER-AGENT");
+		if (userAgent != null) {
+			String agent = userAgent.toLowerCase(Locale.ROOT);
+			if (agent.contains("spider")) {
+				return JsonResult.fail(-1, "spider.");
+			}
+
+			if (agent.contains("android")) {
+				device = "Android";
+			} else if (agent.contains("iphone")) {
+				device = "iPhone";
+			}
+		}
+
+		ViewLog log = new ViewLog();
+		log.setDataId(dataId);
+		log.setDataKey(dataKey);
+		log.setAddTime(new Date());
+		log.setClientIp(clientIp);
+		log.setDevice(device);
+		User user = getCurrentUser(request);
+		if (user != null) {
+			log.setUserId(user.getId());
+		}
+		sysService.saveViewLog(log);
+
+		return JsonResult.ok(log.getId());
+
+	}
+
 }

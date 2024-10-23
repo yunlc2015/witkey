@@ -18,7 +18,7 @@
                 <span class="s2 on">${project.readExplain!"雇主未浏览"}</span>
             </div>
         </div>
-        <#if project.selected==1 >
+        <#if project.selected==1 && project.state.constant==1>
         <div class="txtr cir-red">
             <span><em>中标<br>
                 方案</em></span>

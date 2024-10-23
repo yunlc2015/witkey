@@ -71,7 +71,7 @@
                                 </tr>
                                 <tr>
                                     <th>手机号码：</th>
-                                    <td><input type="text" name="mobile" id="mobile" value="${auth.mobile!}" readonly="readonly" /></td>
+                                    <td><input type="text" name="mobile" id="mobile" value="${user.mobile!}" readonly="readonly" /></td>
                                 </tr>
                                 <tr>
                                     <th>效验码：</th>

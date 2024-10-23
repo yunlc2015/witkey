@@ -52,9 +52,14 @@ public class UserCommonController extends BaseController {
      * @return
      */
     @GetMapping("addbank")
-    public ModelAndView addBank(@RequestParam("bank")int bank) {
+    public ModelAndView addBank(@RequestParam("bank")int bank,
+            HttpServletRequest request) {
+
+        User user = getCurrentUser(request);
+
         ModelAndView mv = new ModelAndView();
         mv.addObject("bank", bank);
+        mv.addObject("user", user);
         mv.setViewName("user/addbank");
 
         return mv;

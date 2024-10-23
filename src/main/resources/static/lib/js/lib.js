@@ -105,3 +105,7 @@ $(document).ready(function($) {
 	});
 
 });
+
+function viewstat(dataId, dataKey) {
+	$.post("/viewstat?dataid=" + dataId + "&datakey=" + dataKey);
+}

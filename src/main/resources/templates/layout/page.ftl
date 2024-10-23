@@ -36,7 +36,6 @@
 <#macro foot>
     <script src="/lib/js/jquery.js"></script>
     <script src="/lib/js/lib.js"></script>
-
     <#include "/inc/scripts.ftl" />
     
     <#nested >

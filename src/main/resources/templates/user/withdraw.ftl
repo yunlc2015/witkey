@@ -108,7 +108,7 @@
                                     <td>
                                         <div class="bank-li bank-li2">
                                             <label for="r1">
-                                                <input type="checkbox" id="Checkbox1" name="time" id=""></label>
+                                                <input type="checkbox" id="checkbox1" name="time" id=""></label>
                                             <div class="pic">
                                                 次日到账</em>
                                                 <p></p>

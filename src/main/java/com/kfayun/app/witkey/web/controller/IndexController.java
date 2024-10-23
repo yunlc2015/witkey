@@ -53,27 +53,28 @@ public class IndexController extends BaseController {
 
 		ModelAndView mv = new ModelAndView();
 
-        List<Banner> bannerList = cmsService.getBannersByLocation("index");
+        List<Banner> bannerList = cmsService.getBannerListByLocation("index");
         mv.addObject("bannerList", bannerList);
 
         Banner bannerAd1 = null;
-        Banner bannerAd2 = null;
-        Banner bannerAd3 = null;
-        List<Banner> banners = cmsService.getBannersByLocation("index_ad");
-        if (banners.size() > 0) {
-            bannerAd1 = banners.get(0);
+        Banner bannerAd21 = null;
+        Banner bannerAd22 = null;
+        List<Banner> banners1 = cmsService.getBannerListByLocation("index_top");
+        if (banners1.size() > 0) {
+            bannerAd1 = banners1.get(0);
         }
-        if (banners.size() > 1) {
-            bannerAd2 = banners.get(1);
+        List<Banner> banners2 = cmsService.getBannerListByLocation("index_ad");
+        if (banners2.size() > 0) {
+            bannerAd21 = banners2.get(0);
         }
-        if (banners.size() > 2) {
-            bannerAd3 = banners.get(2);
+        if (banners2.size() > 1) {
+            bannerAd22 = banners2.get(1);
         }
         mv.addObject("bannerAd1", bannerAd1);
-        mv.addObject("bannerAd2", bannerAd2);
-        mv.addObject("bannerAd3", bannerAd3);
+        mv.addObject("bannerAd21", bannerAd21);
+        mv.addObject("bannerAd22", bannerAd22);
 
-        List<BdInfo> bdinfoList = cmsService.getBdInfosByName("index", 4);
+        List<BdInfo> bdinfoList = cmsService.getBdInfoListByName("index", 4);
         mv.addObject("bdinfoList", bdinfoList);
 
         ZuopinCondition cond = new ZuopinCondition();

@@ -10,11 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.kfayun.app.witkey.PageList;
-import com.kfayun.app.witkey.condition.*;
 import com.kfayun.app.witkey.model.*;
 
 import com.kfayun.app.witkey.service.CmsService;
@@ -46,15 +44,15 @@ public class CmsServiceImpl implements CmsService {
     }
 
     @Override
-    public List<Banner> getBannersByLocation(String location)
+    public List<Banner> getBannerListByLocation(String location)
     {
-        return cmsMapper.getBannersByLocation(location);
+        return cmsMapper.getBannerListByLocation(location);
     }
 
     @Override
-    public List<BdInfo> getBdInfosByName(String name, int num)
+    public List<BdInfo> getBdInfoListByName(String name, int num)
     {
-        return cmsMapper.getBdInfosByName(name, num);
+        return cmsMapper.getBdInfoListByName(name, num);
     }
 
     @Override
@@ -68,10 +66,10 @@ public class CmsServiceImpl implements CmsService {
 
     @Override
     public PageList<Article> findArticleList(
-            ArticleCondition cond, int pageNo, int pageSize) {
+            String keyword, int pageNo, int pageSize) {
         PageList<Article> pglist = new PageList<>(pageNo, pageSize);
-        pglist.setTotal( cmsMapper.findArticleCount(cond) );
-        pglist.setList( cmsMapper.findArticleList(cond, pglist.getOffset(), pageSize));
+        pglist.setTotal( cmsMapper.findArticleCount(keyword) );
+        pglist.setList( cmsMapper.findArticleList(keyword, pglist.getOffset(), pageSize));
         return pglist;
     }
 

@@ -5,6 +5,11 @@
  */
 package com.kfayun.app.witkey.condition;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kfayun.app.witkey.util.StrUtil;
+
 public class UserCondition
 {
     public UserCondition() {
@@ -27,7 +32,7 @@ public class UserCondition
 
     private int grade;
 
-    private String Keyword;
+    private String username;
 
     private int topSort;
 
@@ -101,12 +106,12 @@ public class UserCondition
         this.grade = grade;
     }
 
-    public String getKeyword() {
-        return Keyword;
+    public String getUsername() {
+        return username;
     }
 
-    public void setKeyword(String keyword) {
-        Keyword = keyword;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getTopSort() {
@@ -141,5 +146,18 @@ public class UserCondition
         this.commentSort = commentSort;
     }
 
-    
+    public String getQueryString() {
+        List<String> list = new ArrayList<>();
+        if (StrUtil.isEmpty(username)) {
+            list.add("username=" + username);
+        }
+        if (StrUtil.isEmpty(mobile)) {
+            list.add("mobile=" + mobile);
+        }
+        if (list.isEmpty()) {
+            return "";
+        }
+        return "?" + StrUtil.json(list, "&");
+    }
+
 }

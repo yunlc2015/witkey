@@ -66,7 +66,9 @@
       select count(*) 
       from t_require
       <where>
-
+        <if test="cond.keyword!=null and cond.keyword!=''">
+          instr(title, ${cond.keyword}) != -1
+        </if>
       </where>
     </select>
 
@@ -74,7 +76,9 @@
       select * 
       from t_require
       <where>
-
+        <if test="cond.keyword!=null and cond.keyword!=''">
+          instr(title, ${cond.keyword}) != -1
+        </if>
       </where>
       order by id desc
     </select>
@@ -121,17 +125,24 @@
 
     <select id="findTouSuCount" resultType="int">
       select count(*) 
-      from t_tousu
+      from t_tousu t
+        left join t_user u on t.userId=u.id
       <where>
-
+        <if test="cond.username!=null and cond.username!=''">
+          instr(u.nickname, ${cond.username}) != -1
+        </if>
       </where>
     </select>
 
     <select id="findTouSuList" resultType="touSu">
-      select * 
-      from t_tousu
+      select t.*, 
+        u.nickname username 
+      from t_tousu t
+        left join t_user u on t.userId=u.id
       <where>
-
+        <if test="cond.username!=null and cond.username!=''">
+          instr(u.nickname, ${cond.username}) != -1
+        </if>
       </where>
       order by id desc
     </select>

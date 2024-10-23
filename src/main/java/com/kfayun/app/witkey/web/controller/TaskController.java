@@ -96,7 +96,7 @@ public class TaskController extends BaseController {
 			@RequestParam Map<String, String> params){
         ModelAndView mv = new ModelAndView();
 
-        List<Banner> bannerList = cmsService.getBannersByLocation("task");
+        List<Banner> bannerList = cmsService.getBannerListByLocation("task");
         mv.addObject("bannerList", bannerList);
 
         TaskCondition cond = new TaskCondition();
@@ -152,7 +152,7 @@ public class TaskController extends BaseController {
 
 		ModelAndView mv = new ModelAndView();
 
-		List<Banner> bannerList = cmsService.getBannersByLocation("task");
+		List<Banner> bannerList = cmsService.getBannerListByLocation("task");
 		mv.addObject("bannerList", bannerList);
 
 		TaskCondition cond = new TaskCondition();
@@ -210,7 +210,7 @@ public class TaskController extends BaseController {
 
 		ModelAndView mv = new ModelAndView();
 
-		List<Banner> bannerList = cmsService.getBannersByLocation("task");
+		List<Banner> bannerList = cmsService.getBannerListByLocation("task");
 		mv.addObject("bannerList", bannerList);
 
 		TaskInfo task = taskService.getTaskInfo(taskId);
@@ -229,7 +229,9 @@ public class TaskController extends BaseController {
         mv.addObject("cateName", cate.getName());
 
         List<TaskFile> fileList = taskService.getTaskFileList(task.getId());
-        mv.addObject("fileList", fileList);
+        List<TaskFileVO> voList = fileList.stream()
+            .map(TaskFileVO::new).collect(Collectors.toList());
+        mv.addObject("fileList", voList);
 
         Map<String, Long> projectTotal = projectService.getProjectCountByTask(task.getId());
         mv.addObject("projectTotal", projectTotal);
@@ -1162,6 +1164,11 @@ public class TaskController extends BaseController {
             task.setLimitDesigner( 1 ); // 限制1人
             task.setAddTime( new Date() );
 
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_YEAR, task.getHopeDays());
+            task.setDueTime( cal.getTime() );
+
             String[] keyArr = request.getParameterValues("key");
             List<TaskFile> fileList = new ArrayList<>();
             if (keyArr != null) {
@@ -1294,6 +1301,11 @@ public class TaskController extends BaseController {
 
             task.setTaskMode( getInt(params.get("invest-mode"), 0) );
             //task.AddTime = DateTime.Now;
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_YEAR, task.getHopeDays());
+            task.setDueTime( cal.getTime() );
 
             String[] keys = request.getParameterValues("key");
             //string[] attachments = Request.Form.GetValues("attachment");
@@ -1449,8 +1461,11 @@ public class TaskController extends BaseController {
                 task.setServiceAmount( totalAmount.multiply(new BigDecimal(0.15)) ); // x0.15
             }
             task.setDesignAmount( totalAmount.subtract(task.getServiceAmount()).subtract(task.getFaxAmount()) );
-
             //task.AddTime = DateTime.Now;
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_YEAR, task.getHopeDays());
+            task.setDueTime( cal.getTime() );
 
             String[] keys = request.getParameterValues("key");
             //string[] attachments = Request.Form.GetValues("attachment");

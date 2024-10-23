@@ -65,7 +65,7 @@ public class FrontInterceptor implements HandlerInterceptor {
 
         // 获取登录用户信息，如有。
         User loginUser = null;
-        String cookieStr = WebUtil.readCookie(request, settings.getCookieName());
+        String cookieStr = WebUtil.readCookie(request, settings.getCookiePrefix()+"_user");
         if (!StringUtils.isEmpty(cookieStr)) {
             try {
                 String idStr = CryptoUtil.decryptDES(settings.getCookieSecret(), cookieStr);

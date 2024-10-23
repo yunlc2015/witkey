@@ -7,6 +7,7 @@
 -->
 <#import "/layout/page.ftl" as layout>
 <@layout.head>
+    <link rel="stylesheet" href="/lib/css/slick.css">
 </@layout.head>
 <@layout.body>
 
@@ -38,7 +39,7 @@
 
     <div id="bd">
         <div class="wp">
-            <ul class="tab-tit">
+            <ul class="tab-tit3">
                 <li class="on"><a href="index">服务</a></li>
                 <li><a href="designer">设计师</a></li>
                 <li><a href="team">设计团队</a></li>
@@ -137,7 +138,6 @@
 </@layout.body>
 <@layout.foot>
 
-    <link rel="stylesheet" href="/lib/css/slick.css">
     <script src="/lib/js/slick.min.js"></script>
     <script>
         $(document).ready(function ($) {

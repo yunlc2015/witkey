@@ -32,7 +32,7 @@ public class TaskInfo
 
     private int service; // 1:市场标 2:管家标
 
-    private int taskMode; // 1:竟标 2:雇佣 3:雇佣
+    private int taskMode; // 1:竟标 2:抢标 3:雇佣
 
     private BigDecimal designBudget;
 

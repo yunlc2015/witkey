@@ -131,6 +131,7 @@ public class UserOperateAspect {
             log.setActionDescr( !StrUtil.isEmpty(opDescr) ? opDescr : action.getDescr() );
             log.setActionArgs(jsonMapper.writeValueAsString(data));
             log.setDuration(duration);
+            log.setKind("user");
             log.setLogTime(new Date());
             log.setLogIp(WebUtil.getRealIP(request));
 
@@ -141,6 +142,7 @@ public class UserOperateAspect {
             UserAuth auth = (UserAuth)request.getAttribute(Constants.USER_AUTH);
             if (auth != null && auth.getUser() != null) {
                 log.setUserId(auth.getUserId());
+                log.setOperator(auth.getNickname());
             }
 
             sysService.saveActionLog(log);

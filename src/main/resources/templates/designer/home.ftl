@@ -151,6 +151,8 @@
                 alert('请先登录。');
             }
         }
+
+        viewstat('${user.id}', 'deployer');
     </script>
 
 </@layout.foot>

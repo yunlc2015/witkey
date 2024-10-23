@@ -5,22 +5,22 @@
  */
 package com.kfayun.app.witkey.web.vo;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-import com.kfayun.app.witkey.model.Project;
-import com.kfayun.app.witkey.model.ProjectFile;
-import com.kfayun.app.witkey.model.ProjectState;
-import com.kfayun.app.witkey.model.Rating;
+import com.kfayun.app.witkey.model.*;
 
 public class ProjectVO {
 
     private Project project;
     private List<ProjectFile> fileList;
     private Rating rating;
+    private TaskInfo taskInfo;
+    private BigDecimal settleAmount;
 
     public ProjectVO(Project project) {
         this.project = project;
@@ -40,6 +40,22 @@ public class ProjectVO {
 
     public void setRating(Rating rating) {
         this.rating = rating;
+    }
+
+    public TaskInfo getTask() {
+        return taskInfo;
+    }
+
+    public void setTask(TaskInfo taskInfo) {
+        this.taskInfo = taskInfo;
+    }
+
+    public BigDecimal getSettleAmount() {
+        return settleAmount;
+    }
+
+    public void setSettleAmount(BigDecimal settleAmount) {
+        this.settleAmount = settleAmount;
     }
 
     public int getId() {

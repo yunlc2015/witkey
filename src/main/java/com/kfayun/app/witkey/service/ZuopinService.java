@@ -96,17 +96,35 @@ public interface ZuopinService {
      * @param userId
      * @return
      */
-    public int deleteZuoPinInfo(int zuopinId, int userId);
+    public int deleteZuoPinInfo(int id, int userId);
 
     /**
+     * 获取作品最大排序号
      * 
      * @return
      */
     public int getMaxTopNo();
 
     /**
+     * 获取作品最小排序号（负数）
      * 
      * @return
      */
     public int getMinTopNo();
+
+    /**
+     * 更新作品排序号
+     * 
+     * @param id 作品ID
+     * @param topNo 排序号
+     * @return
+     */
+    public int updateZuoPinTopNo(int id, int topNo);
+
+    /**
+     * 获取作品总数
+     * 
+     * @return
+     */
+    public int getZuoPinTotal();
 }

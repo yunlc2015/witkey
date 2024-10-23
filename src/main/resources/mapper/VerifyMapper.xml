@@ -21,7 +21,9 @@
 		select count(*) 
 		from t_verifycode
 		<where>
-			
+			<if test="cond.sendTo!=null and cond.sendTo!=''">
+				sendTo=#{cond.sendTo}
+			</if>
 		</where>
 	</select>
 
@@ -29,9 +31,12 @@
 		select * 
 		from t_verifycode
 		<where>
-
+			<if test="cond.sendTo!=null and cond.sendTo!=''">
+				sendTo=#{cond.sendTo}
+			</if>
 		</where>
 		order by id desc
+		limit #{offset}, #{limit}
 	</select>
 
     <insert id="insertVerifyCode">

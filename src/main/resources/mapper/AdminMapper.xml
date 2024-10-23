@@ -9,12 +9,6 @@
 -->
 <mapper namespace="com.kfayun.app.witkey.dao.AdminMapper">
 
-		<select id="getAdminByPasswd" resultType="admin">
-			select * 
-      from t_admin
-			where adminName=#{adminName} and passwd=#{passwd}
-		</select>
-
     <select id="getAdminByName" resultType="admin">
       select * 
       from t_admin
@@ -27,14 +21,15 @@
       where id=#{id}
 		</select>
     
-		<select id="getAdmins" resultType="admin">
+		<select id="getAdminList" resultType="admin">
       select * 
       from t_admin
+      order by id desc
 		</select>
 
     <insert id="insertAdmin">
-      insert into t_admin (name, passwd, description, addTime, state, lastLogin)
-      values (#{name}, #{passwd}, #{description}, #{addTime}, #{state}, #{lastLogin})
+      insert into t_admin (name, passwd, pwdSalt, description, addTime, state, lastLogin)
+      values (#{name}, #{passwd}, #{pwdSalt}, #{description}, #{addTime}, #{state}, #{lastLogin})
     </insert>
 
     <update id="updateAdmin">
@@ -43,8 +38,14 @@
        description=#{description},
        lastLogin=#{lastLogin},
        state=#{state}
-       where id=#{id}}
+       where id=#{id}
     </update>
+
+    <delete id="deleteAdmin">
+      delete 
+       from t_admin
+       where id=#{id}
+    </delete>
 
     <select id="getPermissions" resultType="object[]">
       select * 

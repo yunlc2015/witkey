@@ -1,0 +1,114 @@
+.layui-body{overflow-y: scroll;}
+/* body{overflow-y: scroll;} */
+.layui-footer{
+    text-align: center;
+    color: #333333;
+  }
+  .manage{
+    width: 96%;
+    margin: 10px;
+  
+}
+.place{
+  color: #fff;
+  font-size: 16px;
+  line-height: 38px;
+  background: #3bb9ce;
+  margin: 10px;
+  padding-left: 10px;
+}
+
+    /*修改layui样式*/
+.layui-form{
+  margin-top: 20px;
+}
+.top-margin{
+	margin-top:20px;
+}
+/*  .layui-input-block{
+  margin-left: 100px !important;
+}  */
+.border-btm{
+  font-size: 18px;
+  line-height: 30px;
+  border-bottom: 1px #ccc solid;
+}
+.style-color1 {
+	color: #097e0e;
+	 
+}
+
+.style-color2 {
+	color: #f10707;
+	 
+}
+
+.style-color3 {
+	color: #787575;
+	 
+}
+
+.style-color4 {
+	color: #FF5722;
+	 
+}
+
+.style-color5 {
+	color: #1E9FFF;
+	 
+}
+table thead tr{
+	background: #ecedfb !important;
+}
+table thead tr th{
+	    text-align:center !important;
+	    color: #333 !important;
+    font-weight: 600 !important;
+  
+}
+.manage{
+	padding: 0 15px !important;
+	
+}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {   
+ /* WebKit browsers */   
+color: #ccc !important;   
+}   
+input:-moz-placeholder, textarea:-moz-placeholder {   
+/* Mozilla Firefox 4 to 18 */   
+color: #ccc !important;   
+}   
+input::-moz-placeholder, textarea::-moz-placeholder {   
+ /* Mozilla Firefox 19+ */   
+color: #ccc !important;   
+}   
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {   
+ /* Internet Explorer 10+ */   
+color: #ccc !important;   
+} 
+.layui-layout-admin .layui-logo{
+	width:300px !important;
+	text-align:left !important;
+	
+}
+
+ .layui-nav-tree .layui-nav-child .active,
+ .layui-nav-tree .layui-nav-child dd:hover {
+   background: #0695ff;
+ }
+    
+table  {
+  text-align: center;
+}
+table th{
+  text-align: center !important;
+}
+td.left {
+  text-align: left;
+}
+td.right {
+  text-align: right;
+}
+.layui-layout-admin .layui-body {
+    bottom: 0px;
+}

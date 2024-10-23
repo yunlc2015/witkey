@@ -228,7 +228,7 @@ public class TradeServiceImpl implements TradeService {
 
     @Transactional
     @Override
-    public int updateTradeForCashPay(Trade trade) {
+    public int updateTradeForTransferPay(Trade trade) {
 
         String lockStr = trade.getTradeNo().intern();
         synchronized (lockStr) {

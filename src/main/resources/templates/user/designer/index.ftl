@@ -23,7 +23,7 @@
     <div id="ban_user">
         <div class="wp">
             <div class="user_avatar">
-                <img src="/lib/images/avatar.jpg" id="avatar" alt="">
+                <img src="${user.avatar!'/lib/images/avatar.jpg'}" id="avatar" alt="">
                 <div class="txt">
                     <h4>${user.nickname!}</h4>
                     <a href="" class="a-card"></a>

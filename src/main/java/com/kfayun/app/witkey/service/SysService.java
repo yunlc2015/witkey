@@ -5,6 +5,7 @@
  */
 package com.kfayun.app.witkey.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import com.kfayun.app.witkey.PageList;
 import com.kfayun.app.witkey.model.ActionLog;
 import com.kfayun.app.witkey.model.SettingItem;
 import com.kfayun.app.witkey.model.Settings;
+import com.kfayun.app.witkey.model.ViewLog;
 
 /**
  * 系统服务接口
@@ -78,4 +80,17 @@ public interface SysService {
      */
     void saveActionLog(ActionLog log);
     
+    /**
+     * 保存查看日志
+     */
+    void saveViewLog(ViewLog log);
+
+    /**
+     * 获取查看统计数据
+     * @param start
+     * @param kind
+     * @return
+     */
+    List<Map<String, Object>> getViewStatisListForTime(Date start, String kind);
+
 }

@@ -86,7 +86,7 @@ public class UserEmployerController extends BaseController {
 		User user = getCurrentUser(request);
 		mv.addObject("user", user);
 
-		List<Banner> bannerList = cmsService.getBannersByLocation("employer_index_ad");
+		List<Banner> bannerList = cmsService.getBannerListByLocation("employer_index_ad");
 		Banner banner = !bannerList.isEmpty() ? bannerList.get(0) : null;
 		mv.addObject("banner", banner);
 

@@ -28,13 +28,16 @@ public class ActionLog {
 	private int duration;
 	//
 	private String methodName;
-    
+    // user, manage
+    private String kind;
 	//结果
 	private String result;
 	//日志时间
 	private Date logTime;
 	//日志IP
 	private String logIp;
+    
+    private String operator;
     
     public int getId() {
         return id;
@@ -101,6 +104,18 @@ public class ActionLog {
     }
     public void setLogIp(String logIp) {
         this.logIp = logIp;
+    }
+    public String getKind() {
+        return kind;
+    }
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+    public String getOperator() {
+        return operator;
+    }
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 
 

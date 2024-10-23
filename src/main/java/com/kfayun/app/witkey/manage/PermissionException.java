@@ -9,6 +9,7 @@ import com.kfayun.app.witkey.model.Admin;
 
 /**
  * 帮助类，在FTL页面内使用
+ * 
  * author: billy zhang
  */
 public class PermissionException extends RuntimeException {

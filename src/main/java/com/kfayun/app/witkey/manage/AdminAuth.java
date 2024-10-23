@@ -5,44 +5,35 @@
  */
 package com.kfayun.app.witkey.manage;
 
-import com.kfayun.app.witkey.model.User;
+import com.kfayun.app.witkey.model.Admin;
 
 /**
- * 帮助类，在FTL页面内使用
- * author: billy zhang
+ * 管理员认证，在模板页面内使用
+ * 
+ * @author: Billy Zhang (billy_zh@126.com)
  */
 public class AdminAuth {
 
-    private User user;
+    private Admin admin;
 
-    public User getUser() {
-        return user;
+    public Admin getAdmin() {
+        return admin;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 
-    public String getAdminName() {
-        return user != null ? user.getNickname() : "Unknown";
+    public String getName() {
+        return admin != null ? admin.getName() : "Unknown";
     }
 
     public boolean isLogon() {
-    	return user != null;
-    }
-    
-    /**
-     * 获取当前用户的认证状态
-     */
-    public boolean hasRole(String role) {
-    	if (user == null)
-    		return false;
-    	
-        return true;
+    	return admin != null;
     }
 
     public boolean hasPermission(String perm) {
-    	if (user == null)
+    	if (admin == null)
     		return false;
     	
         return true;

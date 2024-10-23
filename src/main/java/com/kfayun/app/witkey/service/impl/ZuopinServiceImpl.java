@@ -123,4 +123,14 @@ public class ZuopinServiceImpl implements ZuopinService {
         return zuopinMapper.getZuoPinMinTopNo();
     }
     
+    @Override
+    public int updateZuoPinTopNo(int id, int topNo) {
+        return zuopinMapper.updateZuoPinTopNo(id, topNo);
+    }
+
+    @Override
+    public int getZuoPinTotal() {
+        return zuopinMapper.getZuoPinTotal();
+    }
+    
 }

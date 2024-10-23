@@ -58,4 +58,10 @@ public interface ZuopinMapper {
 
     public int getZuoPinMinTopNo();
 
+    public int updateZuoPinTopNo(
+        @Param("id")int id,
+        @Param("topNo")int topNo);
+
+    public int getZuoPinTotal();
+        
 }

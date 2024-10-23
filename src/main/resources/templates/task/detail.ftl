@@ -47,7 +47,8 @@
                 <div class="c1-txt">
                     <h3><span>${user.nickname}：</span>${task.requirement}</h3>
                     <div class="t2">
-                        <p><span>设计费：</span><strong>￥${task.designAmount}</strong> <em class="f-btn">已付款</em></p>
+                        <p><span>设计费：</span><strong>￥${task.designAmount}</strong> 
+                            <em class="f-btn"><#if task.taskState.constant==0>未付款<#else>已付款</#if></em></p>
                         <p><span>项目周期：</span>${task.hopeDays}天</p>
                         <p><span>奖金分配比例：</span><#if task.service==2>中标80%，参与20%。<#else>中标100%</#if></p>
                     </div>
@@ -136,7 +137,6 @@
             </div>
             <div class="TxtBox">
                 <div class="txt-list txt-list1">
-                    <p><span>订单编号：</span>${tradeNo}</p>
                     <p><span>需求类目：</span>${cateName!}</p>
                     <p><span>工作量：</span>${task.designContent}&nbsp;&nbsp;
                         <span>完成时间：${task.hopeDays}天
@@ -150,9 +150,8 @@
                     <ul>
                         <#list fileList as file>
                         <li>
-                            <a id="hlnk" runat="server">
-                                <img style="height: 60px; border: 0px;" src="/images/16-img5.jpg" id="img" runat="server" alt=""></a></li>
-
+                            <a href="/task/${file.url}" target="_blank">
+                                <img style="height: 60px; border: 0px;" src="${file.thumbailUrl}"  alt=""></a></li>
                         </#list>
                     </ul>
                 </div>
@@ -476,6 +475,8 @@
 	            'padding': 0
 	        });
 	    });
+
+        viewstat('${task.id}', 'taskinfo');
 	</script>
 
 </@layout.foot>

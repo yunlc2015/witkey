@@ -1,1 +1,0 @@
-Lipotes视频点播服务 版本：${appVersion!}

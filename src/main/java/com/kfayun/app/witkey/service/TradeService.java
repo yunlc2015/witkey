@@ -40,7 +40,7 @@ public interface TradeService {
 
     public int updateTradeForPaySuccess(Trade trade);
 
-    public int updateTradeForCashPay(Trade trade);
+    public int updateTradeForTransferPay(Trade trade);
 
     public PageList<Trade> findTradeList(TradeCondition cond, int pageNo, int pageSize);
         

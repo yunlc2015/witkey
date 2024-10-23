@@ -15,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.kfayun.app.witkey.config.AppConfig;
 import com.kfayun.app.witkey.web.interceptor.FrontInterceptor;
 import com.kfayun.app.witkey.web.interceptor.UserInterceptor;
-import com.kfayun.app.witkey.manage.interceptor.ManageInterceptor;
 
 /**
  * Web配置
@@ -38,11 +37,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		return new UserInterceptor();
 	}
 
-	@Bean
-	ManageInterceptor manageInterceptor() {
-		return new ManageInterceptor();
-	}
-	
 	/**
 	 * 静态资源的处理
 	 * 对于upload目录内除image文件夹外的内容，由相关Controller类单独处理，防非未授权的文件访问！
@@ -70,8 +64,10 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		registry.addInterceptor(frontInterceptor())
 			.addPathPatterns("/**")
 			.excludePathPatterns("/lib/**")
+			.excludePathPatterns("/lib2/**")
 			.excludePathPatterns("/upload/**")
 			.excludePathPatterns("/user/**")
+			.excludePathPatterns("/error")
 			.excludePathPatterns("/manage/**");
 
 		// 用户拦截器，需要用户身份的请求，应置于此拦截器下。
@@ -85,10 +81,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
 			.excludePathPatterns("/user/file/**")
 			.addPathPatterns("/user/proposal/upload")
 			.excludePathPatterns("/user/proposal/**");
-
-		// 管理拦截器
-        registry.addInterceptor(manageInterceptor())
-				.addPathPatterns("/manage/**");
 
     }
 

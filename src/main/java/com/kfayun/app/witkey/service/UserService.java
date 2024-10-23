@@ -268,16 +268,27 @@ public interface UserService {
     public String getUserTz(int userId);
 
     /**
+     * 获取用户最大排序号
      * 
      * @return
      */
     public int getMaxTopNo();
 
     /**
+     * 获取用户最小排序号（负数）
      * 
      * @return
      */
     public int getMinTopNo();
+
+    /**
+     * 更新用户排序号
+     * 
+     * @param userId
+     * @param topNo
+     * @return
+     */
+    public int updateUserTopNo(int id, int topNo);
 
     /**
      * 更新用户余额
@@ -286,6 +297,6 @@ public interface UserService {
      * @param amount 要增/减的金额
      * @return 1:更新成功，0:未更新
      */
-    public int updateUserBalance(int userId, BigDecimal amount);
+    public int updateUserBalance(int id, BigDecimal amount);
 
 }

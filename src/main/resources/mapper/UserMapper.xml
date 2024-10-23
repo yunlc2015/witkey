@@ -38,8 +38,7 @@
         state=#{state},
         lastLogin=#{lastLogin},
         realAuthState=#{realAuthState},
-        abilityGrade=#{abilityGrade},
-        topNo=#{topNo}
+        abilityGrade=#{abilityGrade}
       WHERE id=#{id}
     </update>
 
@@ -49,6 +48,12 @@
       WHERE id=#{id}
     </update>
     
+     <update id="updateUserTopNo">
+      UPDATE t_user SET
+        topNo=#{topNo}
+      WHERE id=#{id}
+    </update>
+
     <update id="updateUserPwd">
       UPDATE t_user SET
         passwd=#{passwd}
@@ -102,7 +107,7 @@
         <if test="cond.grade!=0" >
           and abilityGrade=#{cond.grade}
         </if>
-        <if test="cond.keyword!=null and cond.keyword!=''" >
+        <if test="cond.username!=null and cond.username!=''" >
           and instr(nickname, #{cond.keyword} ) &gt; 0
         </if>
         <if test="cond.mobile!=null and cond.mobile!=''" >
@@ -136,7 +141,7 @@
         <if test="cond.grade!=0" >
           and u.abilityGrade=#{cond.grade}
         </if>
-        <if test="cond.keyword!=null and cond.keyword!=''" >
+        <if test="cond.username!=null and cond.username!=''" >
           and instr(u.nickname, #{cond.keyword} ) &gt; 0
         </if>
         <if test="cond.mobile!=null and cond.mobile!=''" >

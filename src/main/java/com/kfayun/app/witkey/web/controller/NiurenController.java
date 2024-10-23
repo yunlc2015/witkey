@@ -59,7 +59,7 @@ public class NiurenController extends BaseController {
 
 		ModelAndView mv = new ModelAndView();
 
-        List<Banner> bannerList = cmsService.getBannersByLocation("niuren");
+        List<Banner> bannerList = cmsService.getBannerListByLocation("niuren");
         mv.addObject("bannerList", bannerList);
 
         List<CityInfo> provList = commonService.getProvinceList();
@@ -113,7 +113,7 @@ public class NiurenController extends BaseController {
 			@RequestParam Map<String, String> params){
         ModelAndView mv = new ModelAndView();
 
-        List<Banner> bannerList = cmsService.getBannersByLocation("niuren");
+        List<Banner> bannerList = cmsService.getBannerListByLocation("niuren");
         mv.addObject("bannerList", bannerList);
 
         List<CityInfo> provList = commonService.getProvinceList();
@@ -127,7 +127,7 @@ public class NiurenController extends BaseController {
         cond.setProvince( params.getOrDefault("cp", "") );
         cond.setCityId( getInt(params.get("ct"), 0) );
         cond.setGrade( getInt(params.get("grade"), 0) );
-        cond.setKeyword( params.getOrDefault("wd", "") );
+        cond.setUsername( params.getOrDefault("wd", "") );
         cond.setSalesSort( getInt(params.get("sas"), 0) );
         cond.setPriceSort( getInt(params.get("prs"), 0) );
         cond.setCommentSort( getInt(params.get("cms"), 0) );
@@ -175,7 +175,7 @@ public class NiurenController extends BaseController {
 			@RequestParam Map<String, String> params){
         ModelAndView mv = new ModelAndView();
 
-        List<Banner> bannerList = cmsService.getBannersByLocation("niuren");
+        List<Banner> bannerList = cmsService.getBannerListByLocation("niuren");
         mv.addObject("bannerList", bannerList);
 
         List<CityInfo> provList = commonService.getProvinceList();
@@ -189,7 +189,7 @@ public class NiurenController extends BaseController {
         cond.setProvince( params.getOrDefault("cp", "") );
         cond.setCityId( getInt(params.get("ct"), 0) );
         cond.setGrade( getInt(params.get("grade"), 0) );
-        cond.setKeyword( params.getOrDefault("wd", "") );
+        cond.setUsername( params.getOrDefault("wd", "") );
         cond.setSalesSort( getInt(params.get("sas"), 0) );
         cond.setPriceSort( getInt(params.get("prs"), 0) );
         cond.setCommentSort( getInt(params.get("cms"), 0) );

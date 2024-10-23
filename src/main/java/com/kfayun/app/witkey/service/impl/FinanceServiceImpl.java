@@ -193,25 +193,4 @@ public class FinanceServiceImpl implements FinanceService {
         
     }
 
-    @Transactional
-    @Override
-    public int doTaskRefund(TaskInfo ti, BigDecimal amount) {
-        
-        ti.setTaskState(TaskState.Cancelled);
-        taskService.updateTaskInfo(ti);
-
-        Payment pay = new Payment();
-        pay.setAmount(amount);
-        pay.setUserId(ti.getUserId());
-        pay.setKind(2);
-        pay.setSummary("任务退款");
-        pay.setTaskId(ti.getId());
-        pay.setPayTime(new Date());
-        financeMapper.insertPayment(pay);
-
-        userService.updateUserBalance(ti.getUserId(), amount);
-
-        return 1;
-    }
-
 }

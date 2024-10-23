@@ -22,9 +22,14 @@
     </select>
 
     <select id="getProjectListByTask" resultType="project">
-      select * 
-      from t_project
-      where taskId=#{taskId}
+      select p.*,
+        u.nickname designerName,
+        u.mobile designerMobile,
+        u.avatar designerAvatar,
+        u.special designerSpecial 
+      from t_project p
+        inner join t_user u on u.id=p.userId
+      where p.taskId=#{taskId}
       order by selected desc, id desc
     </select>
     

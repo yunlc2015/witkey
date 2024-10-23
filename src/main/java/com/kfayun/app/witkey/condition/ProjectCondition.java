@@ -5,6 +5,11 @@
  */
 package com.kfayun.app.witkey.condition;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kfayun.app.witkey.util.StrUtil;
+
 public class ProjectCondition {
     private int userId;
 
@@ -14,6 +19,8 @@ public class ProjectCondition {
 
     private int selected;
 
+    private String username;
+    
     public int getUserId() {
         return userId;
     }
@@ -46,5 +53,22 @@ public class ProjectCondition {
         this.selected = selected;
     }
 
-    
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getQueryString() {
+        List<String> list = new ArrayList<>();
+        if (StrUtil.isEmpty(username)) {
+            list.add("username=" + username);
+        }
+        if (list.isEmpty()) {
+            return "";
+        }
+        return "?" + StrUtil.json(list, "&");
+    }
 }

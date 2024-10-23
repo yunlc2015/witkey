@@ -20,11 +20,13 @@
 		</select>
 
 		<select id="findPaymentList" resultType="payment">
-			select * 
-      from t_payment
+			select p.*,
+        u.nickname username 
+      from t_payment p
+        inner join t_user u on u.id=p.userId
 			<where>
         <if test="cond.userId!=0">
-          userId=#{cond.userId}
+          p.userId=#{cond.userId}
         </if>
 			</where>
       order by id desc

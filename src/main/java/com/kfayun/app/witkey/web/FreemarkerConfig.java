@@ -35,7 +35,7 @@ public class FreemarkerConfig {
 	 @PostConstruct
 	 public void init() {
 
-		 config.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");  
+		 config.setDateTimeFormat("yyyy-MM-dd HH:mm");  
 		 config.setDateFormat("yyyy-MM-dd");  
 		 config.setTimeFormat("HH:mm:ss"); 
 		 config.setNumberFormat("#");
