@@ -10,7 +10,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Records of t_admin
 -- ----------------------------
-INSERT INTO `t_admin` VALUES (1, 'admin', 'f1267d293d6fcad1896f0c4acc268cc4', 'aw8hty2', NULL, 0, NULL, '2015-09-12 00:00:00');
+INSERT INTO `t_admin` VALUES (1, 'admin', 'f1267d293d6fcad1896f0c4acc268cc4', 'aw8hty2', NULL, NULL, 0, NULL, '2015-09-12 00:00:00');
 
 -- ----------------------------
 -- Records of t_article

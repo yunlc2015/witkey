@@ -60,7 +60,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param pageNo
      * @return
      */
-    @ManageOperate(ManageAction.TSK_MANAGE)
+    @ManageOperate(ManageAction.TSK_VIEW)
     @GetMapping("tasklist")
     public ModelAndView taskList(
         @RequestParam(value="keyword", required=false, defaultValue="")String keyword,
@@ -103,7 +103,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param pageNo
      * @return
      */
-    @ManageOperate(ManageAction.TSK_MANAGE)
+    @ManageOperate(ManageAction.TSK_VIEW)
     @GetMapping("task2list")
     public ModelAndView task2List(
         @RequestParam(value="keyword", required=false, defaultValue="")String keyword,
@@ -144,6 +144,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.TSK_AUDIT)
     @GetMapping("taskaudit")
     public ModelAndView taskAudit(@RequestParam("id")int id) {
 
@@ -199,6 +200,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.TSK_PAYMENT)
     @GetMapping("taskpayment")
     public ModelAndView taskPayment(@RequestParam("id")int id) {
 
@@ -256,6 +258,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.TSK_REFUND)
     @GetMapping("taskrefund")
     public ModelAndView taskRefund(@RequestParam("id")int id) {
 
@@ -316,6 +319,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.TSK_SETTLE)
     @GetMapping("tasksettle")
     public ModelAndView taskSettle(@RequestParam("id")int id) {
 
@@ -409,6 +413,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.TSK_VIEW)
     @GetMapping("tasksettledetail")
     public ModelAndView taskSettleDetail(@RequestParam("id")int id) {
 
@@ -441,6 +446,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.TSK_VIEW)
     @GetMapping("taskprojectlist")
     public ModelAndView taskProjectList(
         @RequestParam(value="id")int id) {
@@ -473,6 +479,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param pageNo
      * @return
      */
+    @ManageOperate(ManageAction.TSK_PROJECT_VIEW)
     @GetMapping("projectlist")
     public ModelAndView projectList(
         @RequestParam(value="username", required=false, defaultValue="")String username,
@@ -512,6 +519,7 @@ public class ManageTaskController extends ManageBaseController {
      * @param pageNo
      * @return
      */
+    @ManageOperate(ManageAction.TSK_RATING_VIEW)
     @GetMapping("ratinglist")
     public ModelAndView ratingList(
             @RequestParam(value="name", required=false, defaultValue="")String name,

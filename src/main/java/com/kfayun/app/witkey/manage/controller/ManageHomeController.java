@@ -218,11 +218,86 @@ public class ManageHomeController extends ManageBaseController {
 		}
 	}
 
+	/**
+	 * 管理员退出登录处理
+	 */
+	@RequestMapping("logout")
+    public void logout(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException{
+		Settings settings = (Settings)request.getAttribute("settings");
+		WebUtil.deleteCookie(
+			response, 
+			getCookieDomain(settings.getCookieDomain()), 
+			"", 
+			settings.getCookiePrefix() + "_manage");
+		response.sendRedirect(config.getContextPath() + "/manage/login");
+    }
+
 	private String getCookieDomain(String domain) {
 		if (config.getProfile().equalsIgnoreCase("prod")) {
 			return domain;
 		}
 		return ""; // use localhost or ip.
+	}
+
+	/**
+	 * 修改密码页
+	 * @return
+	 */
+	@GetMapping("changepwd")
+	public ModelAndView changePwd() {
+		ModelAndView mv = new ModelAndView("manage/changepwd");
+
+		return mv;
+	}
+
+	/**
+	 * 修改密码提交
+	 * 
+	 * @param params 表单参数
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@PostMapping("changepwd")
+	@ResponseBody
+	public JsonResult<Integer> changePwdPost(@RequestParam Map<String, String> params,
+			HttpServletRequest request) {
+
+		try  {
+
+			String oldPasswd = params.get("oldpasswd");
+			String newPasswd = params.get("newpasswd");
+			String newPasswd2 = params.get("newpasswd2");
+
+			if (StrUtil.isEmpty(newPasswd)) {
+				return JsonResult.fail(-1, "密码不能为空。");
+			}
+			if (!newPasswd.equals(newPasswd2)) {
+				return JsonResult.fail(-1, "密码确认不一致。");
+			}
+			if (newPasswd.length() < 8) {
+				return JsonResult.fail(-1, "密码不能少于8位字符。");
+			}
+
+			Admin admin = getCurrentAdmin(request);
+
+			String encPasswd = CryptoUtil.MD5( CryptoUtil.MD5(oldPasswd) + admin.getPwdSalt() );
+			if (!encPasswd.equals(admin.getPasswd())) {
+				return JsonResult.fail(-2, "原密码错误。");
+			}
+
+			String newEncPasswd = CryptoUtil.MD5( CryptoUtil.MD5(newPasswd) + admin.getPwdSalt() );
+			admin.setPasswd(newEncPasswd);
+			int n = adminService.updateAdmin(admin);
+
+			return JsonResult.ok(n);
+
+		} catch (Exception ex) {
+			handleError(request, ex);
+			return JsonResult.fail(Constants.GLOBAL_ERROR_CODE, Constants.GLOBAL_ERROR_MESSAGE);
+		}
 	}
 
 }

@@ -29,10 +29,4 @@ public interface AdminService {
 
     public Admin getAdmin(int id);
 
-    public Map<Integer, String> getPermissions();
-
-    public List<Integer> getAdminPermissions(int adminId);
-
-    public int updateAdminPermissions(int adminId, int[] perms);
-
 }

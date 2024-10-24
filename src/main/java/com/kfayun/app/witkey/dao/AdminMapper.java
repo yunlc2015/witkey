@@ -34,16 +34,4 @@ public interface AdminMapper {
     public Admin getAdmin(
         @Param("id")int id);
 
-    public List<Object[]> getPermissions();
-
-    public List<Integer> getAdminPermissions(
-        @Param("adminId")int adminId);
-
-    public int deleteAdminPermissions(
-        @Param("adminId")int adminId);
-
-    public void insertAdminPermission(
-        @Param("adminId")int adminId, 
-        @Param("permission")int permission);
-
 }

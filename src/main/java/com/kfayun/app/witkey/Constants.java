@@ -13,7 +13,6 @@ package com.kfayun.app.witkey;
 public class Constants {
 
 	public static final String USER_AUTH = "auth";
-
 	public static final String ADMIN_AUTH = "auth";
 
 	public static final String CAPTCHA = "captcha";
@@ -24,4 +23,7 @@ public class Constants {
 
 	public static final int GLOBAL_ERROR_CODE = -99;
 	public static final String GLOBAL_ERROR_MESSAGE = "Unknown error.";
+	public static final String NO_PERMISSION_RESULT = "{\"errCode\":-90,\"errMsg\":\"无权限执行此操作。\"}";
+
+	public static final String MIME_JSON_UTF8 = "application/json;charset=utf-8";
 }

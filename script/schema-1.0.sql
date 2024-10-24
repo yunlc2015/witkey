@@ -56,6 +56,7 @@ CREATE TABLE `t_admin`  (
   `passwd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `pwdSalt` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `permissions` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `state` smallint(5) NULL DEFAULT NULL,
   `lastLogin` datetime NULL DEFAULT NULL,
   `addTime` datetime NULL DEFAULT NULL,

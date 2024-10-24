@@ -58,33 +58,4 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getAdmin(id);
     }
 
-    @Override
-    public Map<Integer, String> getPermissions() {
-        List<Object[]> list = adminMapper.getPermissions();
-        Map<Integer, String> dict = new HashMap<Integer, String>();
-        for (int i = 0; i < list.size(); i++) {
-            Object[] objs = list.get(i);
-            dict.put((Integer)objs[0], (String)objs[1]);
-        }
-        return dict;
-    }
-
-    @Override
-    public List<Integer> getAdminPermissions(int adminId) {
-        return adminMapper.getAdminPermissions(adminId);
-    }
-
-    @Transactional
-    @Override
-    public int updateAdminPermissions(int adminId, int[] perms) {
-        
-        adminMapper.deleteAdminPermissions(adminId);
-
-        for (int i = 0; i < perms.length; i++) {
-            adminMapper.insertAdminPermission(adminId, perms[i]);
-        }
-
-        return 1;
-        
-    }
 }

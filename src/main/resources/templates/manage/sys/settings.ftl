@@ -56,7 +56,7 @@
 					dataType: 'json',
 					success: function (resp) {
 						if (resp.errCode == 0) {
-							layer.msg('保存成功。', function() {location.href='settings';} );
+							layer.msg('保存成功。', function() {window.location.href='settings';} );
 						} else {
 							layer.msg(resp.errMsg);
 						}

@@ -47,6 +47,7 @@ public class ManageUserController extends ManageBaseController {
      * @param pageNo
      * @return
      */
+    @ManageOperate(ManageAction.USR_DESIGNER_VIEW)
     @GetMapping("designerlist")
     public ModelAndView designerList(
             @RequestParam(value="mobile", required=false, defaultValue="")String mobile,
@@ -121,6 +122,7 @@ public class ManageUserController extends ManageBaseController {
      * @param pageNo
      * @return
      */
+    @ManageOperate(ManageAction.USR_EMPLOYER_VIEW)
     @GetMapping("employerlist")
     public ModelAndView employerList(
             @RequestParam(value="mobile", required=false, defaultValue="")String mobile,
@@ -154,6 +156,7 @@ public class ManageUserController extends ManageBaseController {
      * @param pageNo
      * @return
      */
+    @ManageOperate(ManageAction.USR_REALAUTHENT_VIEW)
     @GetMapping("realauthentlist")
     public ModelAndView realAuthentList(
             @RequestParam(value="username", required=false, defaultValue="")String username,
@@ -185,6 +188,7 @@ public class ManageUserController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.USR_REALAUTHENT_VIEW)
     @GetMapping("realauthentdetail")
     public ModelAndView realAuthentDetail(
             @RequestParam(value="id")int id) {
@@ -207,6 +211,7 @@ public class ManageUserController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.USR_REALAUTHENT_AUDIT)
     @GetMapping("realauthentaudit")
     public ModelAndView realAuthentAudit(
             @RequestParam(value="id")int id) {
@@ -266,6 +271,7 @@ public class ManageUserController extends ManageBaseController {
      * @param pageNo
      * @return
      */
+    @ManageOperate(ManageAction.USR_ABILITYAUTHENT_VIEW)
     @GetMapping("abilityauthentlist")
     public ModelAndView abilityAuthentList(
              @RequestParam(value="username", required=false, defaultValue="")String username,
@@ -297,6 +303,7 @@ public class ManageUserController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.USR_ABILITYAUTHENT_VIEW)
     @GetMapping("abilityauthentdetail")
     public ModelAndView abilityAuthenDetail(
             @RequestParam(value="id")int id) {
@@ -319,6 +326,7 @@ public class ManageUserController extends ManageBaseController {
      * @param id
      * @return
      */
+    @ManageOperate(ManageAction.USR_ABILITYAUTHENT_AUDIT)
     @GetMapping("abilityauthentaudit")
     public ModelAndView abilityAuthentAudit(
             @RequestParam(value="id")int id) {
@@ -382,6 +390,7 @@ public class ManageUserController extends ManageBaseController {
      * @param pageNo
      * @return
      */
+    @ManageOperate(ManageAction.USR_ZUOPIN_VIEW)
     @GetMapping("zuopinlist")
     public ModelAndView zuopinList(
         @RequestParam(value="keyword", required=false, defaultValue="")String keyword,

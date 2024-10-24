@@ -12,5 +12,9 @@
           <a href="javascript:;">
                ${(auth.name)!}
           </a>
+          <dl class="layui-nav-child">
+              <dd><a href="javascript:openDialog('/manage/changepwd', '修改密码');">修改密码</a></dd>
+              <dd><a href="/manage/logout">退出</a></dd>
+          </dl>
       </li>
   </ul>

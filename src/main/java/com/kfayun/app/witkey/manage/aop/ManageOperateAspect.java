@@ -31,6 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -76,26 +78,23 @@ public class ManageOperateAspect {
         MethodInvocationProceedingJoinPoint mjPoint = (MethodInvocationProceedingJoinPoint) joinPoint;
         MethodSignature methodSign = (MethodSignature) mjPoint.getSignature();
         ManageOperate oper = methodSign.getMethod().getAnnotation(ManageOperate.class);
-        if (oper == null) {
-            return;
-        }
-
+        
         ManageAction action = oper.value();
-        if (ManageAction.USR_LOGIN == action ||
-                ManageAction.USR_LOGOUT == action) {
+        if (ManageAction.ADM_LOGIN == action ||
+                ManageAction.ADM_LOGOUT == action) {
             return;
         }
 
         AdminAuth auth = (AdminAuth)getRequest().getAttribute(Constants.ADMIN_AUTH);
         if (!auth.isLogon()) {
             log.warn("not login");
-            throw new PermissionException(action.getName());
+            throw new PermissionException(null, action);
         }
 
-        // permission check;
+        // 管理权限检查
         if (!auth.hasPermission(action.getName())) {
-            log.warn("{} no permission", methodSign.getMethod().getName());
-            throw new PermissionException(action.getName());
+            log.warn("没有权限执行此操作，需要权限：{}", methodSign.getMethod().getName());
+            throw new PermissionException(auth.getAdmin(), action);
         }
     }
 
@@ -104,7 +103,7 @@ public class ManageOperateAspect {
      *
      * @param joinPoint
      */
-    @AfterReturning(value="operate()",returning = "result")
+    @AfterReturning(value="operate()", returning="result")
     public void afterReturning(JoinPoint joinPoint, Object result) {
         int duration = (int) (System.currentTimeMillis() - startTimeMillis.get());
 
@@ -112,29 +111,35 @@ public class ManageOperateAspect {
             MethodInvocationProceedingJoinPoint mjPoint = (MethodInvocationProceedingJoinPoint) joinPoint;
             MethodSignature methodSign = (MethodSignature) mjPoint.getSignature();
             ManageOperate oper = methodSign.getMethod().getAnnotation(ManageOperate.class);
-            if (oper == null) {
-                return;
-            }
+           
             ManageAction action = oper.value();
             if (action.getLog() == 0) {
-                // 不记录到数据库。
+                // 不记录日志。
                 return;
             }
+            GetMapping mapping = methodSign.getMethod().getAnnotation(GetMapping.class);
+            if (mapping != null) {
+                // Get请求不记录日志。
+                return;
+            }
+
             String methodName = methodSign.getName();
             Map<String, Object> data = new HashMap<>();
             String[] names = methodSign.getParameterNames();
             for (int i = 0; i < names.length; i++) {
                 // 忽略密码参数
-                if ("passwd".equalsIgnoreCase(names[i]) ||
-                        "password".equalsIgnoreCase(names[i])) {
+                if (names[i].toLowerCase().contains("passwd") ||
+                        names[i].toLowerCase().contains("password")) {
+                    // 敏感类参数，不记录实际内容。
+                    data.put(names[i], "***");
                     continue;
                 }
-                // 忽略Request, Response参数
                 Object arg = joinPoint.getArgs()[i];
                 if (Objects.nonNull(arg)) {
                     Class<?> argClazz = arg.getClass();
                     if (HttpServletRequest.class.isAssignableFrom(argClazz) ||
                             HttpServletResponse.class.isAssignableFrom(argClazz)) {
+                        // 忽略Request, Response参数
                         continue;
                     }
                 }
@@ -161,7 +166,7 @@ public class ManageOperateAspect {
             }
 
             AdminAuth auth = (AdminAuth)request.getAttribute(Constants.ADMIN_AUTH);
-            if (ManageAction.USR_LOGIN == action) {
+            if (ManageAction.ADM_LOGIN == action) {
                 if (auth == null) {
                     log.setResult("登录失败。");
                 } else {
@@ -191,16 +196,6 @@ public class ManageOperateAspect {
      */
     @AfterThrowing(pointcut = "operate()", throwing = "ex")
     public void afterThrowing(JoinPoint joinPoint, Exception ex) {
-    }
-
-    /**
-     * 环绕触发
-     *
-     * @param joinPoint
-     */
-    //@Around("operate()")
-    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        return null;
     }
 
 }

@@ -23,6 +23,8 @@ public class Admin {
 
     private String description;
 
+    private String permissions;
+    
     private int state;
 
     private Date lastLogin;
@@ -91,6 +93,14 @@ public class Admin {
 
     public void setAddTime(Date addTime) {
         this.addTime = addTime;
+    }
+
+    public String getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(String permissions) {
+        this.permissions = permissions;
     }
 
     

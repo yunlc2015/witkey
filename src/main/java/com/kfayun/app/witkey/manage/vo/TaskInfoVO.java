@@ -1,3 +1,8 @@
+/**
+ * 云联创威客系统
+ * 
+ * Copyright 2015 云联创科技
+ */
 package com.kfayun.app.witkey.manage.vo;
 
 import java.math.BigDecimal;
@@ -11,6 +16,11 @@ import com.kfayun.app.witkey.model.TaskInfo;
 import com.kfayun.app.witkey.model.TaskState;
 import com.kfayun.app.witkey.util.DateUtil;
 
+/**
+ * TaskInfoVO
+ * 
+ * @author: Billy Zhang (billy_zh@126.com)
+ */
 public class TaskInfoVO {
     
     private TaskInfo task;

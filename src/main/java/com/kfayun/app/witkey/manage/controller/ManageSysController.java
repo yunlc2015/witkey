@@ -7,7 +7,9 @@ package com.kfayun.app.witkey.manage.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -22,11 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kfayun.app.witkey.*;
 import com.kfayun.app.witkey.condition.VerifyCodeCondition;
-import com.kfayun.app.witkey.manage.aop.ManageAction;
-import com.kfayun.app.witkey.manage.aop.ManageOperate;
+import com.kfayun.app.witkey.manage.aop.*;
 import com.kfayun.app.witkey.util.*;
 import com.kfayun.app.witkey.service.*;
 import com.kfayun.app.witkey.model.*;
+import com.kfayun.app.witkey.manage.vo.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +54,7 @@ public class ManageSysController extends ManageBaseController {
      * 
      * @return
      */
+    @ManageOperate(ManageAction.SYS_GENERALSETTINGS_VIEW)
     @GetMapping("settings")
     public ModelAndView settings() {
 
@@ -82,11 +85,17 @@ public class ManageSysController extends ManageBaseController {
     @PostMapping( "settings")
 	@ResponseBody
 	public JsonResult<Integer> settingsPost(
-			@RequestParam Map<String, String> data){
+			@RequestParam Map<String, String> data,
+            HttpServletRequest request) {
 
-		int n = sysService.updateSettings(data);
+        try {
+            int n = sysService.updateSettings(data);
 
-		return JsonResult.ok(n);
+            return JsonResult.ok(n);
+        } catch (Exception ex) {
+            handleError(request, ex);
+            return JsonResult.fail(Constants.GLOBAL_ERROR_CODE, Constants.GLOBAL_ERROR_MESSAGE);
+        }
 	}
 
     /**
@@ -94,6 +103,7 @@ public class ManageSysController extends ManageBaseController {
      * 
      * @return
      */
+    @ManageOperate(ManageAction.SYS_PAYSETTINGS_VIEW)
     @GetMapping("paysettings")
     public ModelAndView paysettings() {
 
@@ -118,11 +128,16 @@ public class ManageSysController extends ManageBaseController {
     @PostMapping( "paysettings")
 	@ResponseBody
 	public JsonResult<Integer> paysettingsPost(
-			@RequestParam Map<String, String> data){
+			@RequestParam Map<String, String> data,
+            HttpServletRequest request) {
+        try {
+            int n = sysService.updateSettings(data);
 
-		int n = sysService.updateSettings(data);
-
-		return JsonResult.ok(n);
+            return JsonResult.ok(n);
+        } catch (Exception ex) {
+            handleError(request, ex);
+            return JsonResult.fail(Constants.GLOBAL_ERROR_CODE, Constants.GLOBAL_ERROR_MESSAGE);
+        }
 	}
 
     /**
@@ -132,6 +147,7 @@ public class ManageSysController extends ManageBaseController {
      * @Param pageSize 页记录数
      * @return
      */
+    @ManageOperate(ManageAction.SYS_ACTIONLOG_VIEW)
 	@GetMapping(value = "actionlist")
     public ModelAndView actionList(
 			@RequestParam(value = "pageno", defaultValue = "1", required = false) int pageNo,
@@ -168,6 +184,7 @@ public class ManageSysController extends ManageBaseController {
      * 
      * @return
      */
+    @ManageOperate(ManageAction.SYS_ADMIN_VIEW)
 	@GetMapping(value = "adminlist")
     public ModelAndView adminList() {
         ModelAndView model = new ModelAndView();
@@ -186,10 +203,13 @@ public class ManageSysController extends ManageBaseController {
      * 
      * @return
      */
+    @ManageOperate(ManageAction.SYS_ADMIN_ADD)
     @GetMapping("adminadd")
     public ModelAndView adminAdd() {
 
         ModelAndView mv = new ModelAndView();
+
+        mv.addObject("actionMap", ManageAction.actionGroupMap());
 
         mv.setViewName("manage/sys/adminadd");
         return mv;
@@ -224,6 +244,7 @@ public class ManageSysController extends ManageBaseController {
             admin.setDescription( params.get("description") );
             admin.setPwdSalt( UUID.randomUUID().toString().replace("-", "").substring(8, 20).toLowerCase() );
             admin.setPasswd( CryptoUtil.MD5(CryptoUtil.MD5(password) + admin.getPwdSalt()) );
+            admin.setPermissions( params.get("perm") );
             admin.setAddTime(new Date());
 
             adminService.saveAdmin(admin);
@@ -240,6 +261,7 @@ public class ManageSysController extends ManageBaseController {
      * @param id 管理员ID
      * @return
      */
+    @ManageOperate(ManageAction.SYS_ADMIN_EDIT)
     @GetMapping("adminedit")
     public ModelAndView adminEdit(@RequestParam("id")int id) {
 
@@ -251,6 +273,17 @@ public class ManageSysController extends ManageBaseController {
         }
 
         mv.addObject("admin", admin);
+
+        String permissions = !StrUtil.isEmpty(admin.getPermissions()) ? admin.getPermissions() : "";
+        List<String> permissionList = Arrays.asList(permissions.split(","));
+       
+        Map<String, List<ManageActionVO>> actionMap = ManageAction.actionGroupMap();
+        for (List<ManageActionVO> list : actionMap.values()) {
+            list.forEach((action)->{
+                action.setGrant(permissionList.contains(action.getName()));
+            });
+        }
+        mv.addObject("actionMap", actionMap);
 
         mv.setViewName("manage/sys/adminedit");
         return mv;
@@ -289,6 +322,7 @@ public class ManageSysController extends ManageBaseController {
 
             admin.setDescription( params.get("description") );
             admin.setState( getInt(params.get("state"), 0));
+            admin.setPermissions( params.get("perm") );
 
             int n = adminService.updateAdmin(admin);
             return JsonResult.ok(n);
@@ -324,6 +358,7 @@ public class ManageSysController extends ManageBaseController {
      * 
      * @return
      */
+    @ManageOperate(ManageAction.SYS_VERIFYCODE_VIEW)
 	@GetMapping(value = "vcodelist")
     public ModelAndView vcodeList(
         @RequestParam(value = "sendto", defaultValue = "", required = false) String sendTo,

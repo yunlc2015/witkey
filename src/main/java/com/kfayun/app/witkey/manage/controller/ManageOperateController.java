@@ -49,6 +49,7 @@ public class ManageOperateController extends ManageBaseController {
      * @param pageNo
      * @return
      */
+    @ManageOperate(ManageAction.OPS_ARTICLE_VIEW)
     @GetMapping("articlelist")
     public ModelAndView articleList(
         @RequestParam(value="keyword", required=false, defaultValue="")String keyword,
@@ -77,6 +78,7 @@ public class ManageOperateController extends ManageBaseController {
      * @param id 文章ID
      * @return
      */
+    @ManageOperate(ManageAction.OPS_ARTICLE_EDIT)
     @GetMapping("articleedit")
     public ModelAndView articleEdit(@RequestParam("id")int id) {
 
@@ -145,6 +147,7 @@ public class ManageOperateController extends ManageBaseController {
      * @param pageNo
      * @return
      */
+    @ManageOperate(ManageAction.OPS_BDINFO_VIEW)
     @GetMapping("bdinfolist")
     public ModelAndView bdinfoList(
         @RequestParam(value="keyword", required=false, defaultValue="")String keyword,
@@ -172,6 +175,7 @@ public class ManageOperateController extends ManageBaseController {
      * 
      * @return
      */
+    @ManageOperate(ManageAction.OPS_BDINFO_ADD)
     @GetMapping("bdinfoadd")
     public ModelAndView bdinfoAdd() {
 
@@ -216,6 +220,7 @@ public class ManageOperateController extends ManageBaseController {
      * @param id 推广ID
      * @return
      */
+    @ManageOperate(ManageAction.OPS_BDINFO_EDIT)
     @GetMapping("bdinfoedit")
     public ModelAndView bdinfoEdit(@RequestParam("id")int id) {
 
@@ -291,6 +296,7 @@ public class ManageOperateController extends ManageBaseController {
      * @param location
      * @return
      */
+    @ManageOperate(ManageAction.OPS_BANNER_VIEW)
     @GetMapping("bannerlist")
     public ModelAndView bannerList(
         @RequestParam(value="location", required=false, defaultValue="")String location) {
@@ -312,6 +318,7 @@ public class ManageOperateController extends ManageBaseController {
      * 
      * @return
      */
+    @ManageOperate(ManageAction.OPS_BANNER_ADD)
     @GetMapping("banneradd")
     public ModelAndView bannerAdd() {
 
@@ -354,6 +361,7 @@ public class ManageOperateController extends ManageBaseController {
      * @param id BannerID
      * @return
      */
+    @ManageOperate(ManageAction.OPS_BANNER_EDIT)
     @GetMapping("banneredit")
     public ModelAndView bannerEdit(@RequestParam("id")int id) {
 

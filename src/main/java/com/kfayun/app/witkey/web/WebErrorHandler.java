@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -155,9 +156,9 @@ public class WebErrorHandler implements TemplateExceptionHandler {
 
 	@ExceptionHandler(value = Exception.class)
 	public ModelAndView requestErrorHandler(
-			HttpServletRequest req, HttpServletResponse resp, Exception ex) throws IOException {
+			HttpServletRequest req, HttpServletResponse resp, HandlerMethod method, Exception ex) throws IOException {
 		if (req.getRequestURI().startsWith("/manage")) {
-			return managerErrorHandler.requestErrorHandler(req, resp, ex);
+			return managerErrorHandler.requestErrorHandler(req, resp, method, ex);
 		}
 		log.error(ex.getMessage() + ", " + req.getRequestURL().toString(), ex);
 

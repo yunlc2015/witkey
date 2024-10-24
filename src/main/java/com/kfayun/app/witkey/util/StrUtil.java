@@ -7,6 +7,7 @@ package com.kfayun.app.witkey.util;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Arrays;
 
 /**
  * 字符串处理工具类
@@ -50,7 +51,14 @@ public final class StrUtil {
 		return sb.toString();
 	}
 
-	public static String json(List<String> list, String sep) {
+	public static String join(String[] strs, String sep) {
+		if (strs == null || strs.length == 0)
+			return "";
+		
+		return join(Arrays.asList(strs), sep);
+	}
+
+	public static String join(List<String> list, String sep) {
 		if (list == null || list.size() == 0)
 			return "";
 		

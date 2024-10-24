@@ -7,7 +7,7 @@
     <div class="manage" style="padding: 15px;">
         <form class="layui-form" method="GET">
             <div class="layui-inline">
-                <a href="javascript:openDialog('adminadd', '添加管理员', '600px', '480px');" class="layui-btn layui-btn-normal">添加Banner</a>
+                <a href="javascript:openDialog('adminadd', '添加管理员', '700px', '800px');" class="layui-btn layui-btn-normal">添加管理员</a>
             </div>
              <div class="layui-inline">
                 <label class="layui-form-label">名称</label>
@@ -38,7 +38,7 @@
                 <td class="left">${admin.state}</td>
                 <td class="left"><#if admin.lastLogin?? >${admin.lastLogin!}</#if></td>
                 <td><#if admin.name != 'admin' >
-                    <a href="javascript:openDialog('adminedit?id=${(admin.id)?c}', '编辑Banner', '800px', '600px');" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a>
+                    <a href="javascript:openDialog('adminedit?id=${(admin.id)?c}', '编辑管理员', '700px', '800px');" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a>
                     <a href="javascript:deleteConfirm('admindelete?id=${(admin.id)?c}', '确定要删除此管理员吗？');" class="layui-btn layui-btn-danger layui-btn-sm">删除</a>
                     <#else>
                     <a href="javascript:void(0);" class="layui-btn layui-btn-disabled layui-btn-sm">编辑</a>

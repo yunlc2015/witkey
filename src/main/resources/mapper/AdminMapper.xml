@@ -28,14 +28,15 @@
 		</select>
 
     <insert id="insertAdmin">
-      insert into t_admin (name, passwd, pwdSalt, description, addTime, state, lastLogin)
-      values (#{name}, #{passwd}, #{pwdSalt}, #{description}, #{addTime}, #{state}, #{lastLogin})
+      insert into t_admin (name, passwd, pwdSalt, description, permissions, addTime, state, lastLogin)
+      values (#{name}, #{passwd}, #{pwdSalt}, #{description}, #{permissions}, #{addTime}, #{state}, #{lastLogin})
     </insert>
 
     <update id="updateAdmin">
       update t_admin set
        passwd=#{passwd},
        description=#{description},
+       permissions=#{permissions},
        lastLogin=#{lastLogin},
        state=#{state}
        where id=#{id}
@@ -47,26 +48,4 @@
        where id=#{id}
     </delete>
 
-    <select id="getPermissions" resultType="object[]">
-      select * 
-      from t_permission
-    </select>
-    
-    <select id="getAdminPermissions" resultType="int">
-      select permId 
-      from t_admin_perm
-      where adminId=#{adminId}
-    </select>
-
-    <delete id="deleteAdminPermissions">
-      delete 
-      from t_admin_perm
-      where adminId=#{adminId}
-    </delete>
-
-    <insert id="insertAdminPermission">
-      insert into t_admin_perm (adminId, permId)
-      values (#{adminId}, #{permId})
-    </insert>
-    
 </mapper>

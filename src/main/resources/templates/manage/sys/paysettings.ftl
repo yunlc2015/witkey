@@ -51,7 +51,7 @@
 					dataType: 'json',
 					success: function (resp) {
 						if (resp.errCode == 0) {
-							layer.msg('保存成功。', function() {location.href='paysettings';} );
+							layer.msg('保存成功。', function() {window.location.href='paysettings';} );
 						} else {
 							layer.msg(resp.errMsg);
 						}

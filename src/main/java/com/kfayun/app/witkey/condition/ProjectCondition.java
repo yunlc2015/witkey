@@ -69,6 +69,6 @@ public class ProjectCondition {
         if (list.isEmpty()) {
             return "";
         }
-        return "?" + StrUtil.json(list, "&");
+        return "?" + StrUtil.join(list, "&");
     }
 }
